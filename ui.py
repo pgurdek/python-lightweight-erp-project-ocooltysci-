@@ -20,6 +20,7 @@ def print_table(table, title_list):
     """
 
     # your goes code
+    print(table)
 
     pass
 
@@ -61,8 +62,12 @@ def print_menu(title, list_options, exit_message):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-
     # your code
+    print('{}:'.format(title))
+    for index, option in enumerate(list_options):
+        print('   ({index}) {option}'.format(index=index+1,option = option))
+
+    print('   (0) {exit}'.format(exit = exit_message))
 
     pass
 

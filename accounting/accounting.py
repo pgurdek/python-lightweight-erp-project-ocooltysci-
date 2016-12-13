@@ -37,7 +37,6 @@ def start_module():
     data_file_path = os.path.join(module, data_file)
     table = data_manager.get_table_from_file(data_file_path)
 
-
     while True:
             ui.print_menu(title, options, exit_statement)
             choice = ui.get_inputs(["Choose your module: "], "")
@@ -83,8 +82,6 @@ def show_table(table):
     header = ['Id', 'Month', 'Day', 'Year', 'Type', 'Amount']
     ui.print_table(table, header)
 
-    pass
-
 
 def add(table):
     """
@@ -99,6 +96,15 @@ def add(table):
 
     # your code
 
+    title = "Add a new record"
+    list_labels = ['Month', 'Day', 'Year', 'Type', 'Amount']
+    record = [common.generate_random()]
+
+    inputs = ui.get_inputs(list_labels, title)
+    for things in inputs:
+        record.append(things)
+    table.append(record)
+    data_manager.write_table_to_file("accounting/items.csv", table)
     return table
 
 
@@ -114,7 +120,13 @@ def remove(table, id_):
         Table without specified record.
     """
 
-    # your code
+
+    for n in table:
+        if id_ in n:
+            table.remove(n)
+
+
+    data_manager.write_table_to_file("accounting/items.csv", table)
 
     return table
 
@@ -131,8 +143,18 @@ def update(table, id_):
         table with updated record
     """
 
-    # your code
+    title = 'Update'
+    list_labels = ['Month', 'Day', 'Year', 'Type', 'Amount']
+    for data in range(len(table)):
+        if table[data][0] == id_:
+            inputs = ui.get_inputs(list_labels, title)
+            table[data][1] = inputs[0]
+            table[data][2] = inputs[1]
+            table[data][3] = inputs[2]
+            table[data][4] = inputs[3]
+            table[data][5] = inputs[4]
 
+    data_manager.write_table_to_file("accounting/items.csv", table)
     return table
 
 
@@ -156,7 +178,3 @@ def avg_amount(table, year):
 
     pass
 
-
-if __name__ == '__main__':
-    data = data_manager.get_table_from_file('items.csv')
-    a = (show_table(data))

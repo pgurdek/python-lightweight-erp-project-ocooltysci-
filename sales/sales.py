@@ -53,6 +53,9 @@ def show_table(table):
 
     # your code
 
+    header = ['Id', 'Title', 'Price', 'Month', 'Day', 'Year']
+    ui.print_table(table, header)
+
     pass
 
 
@@ -154,3 +157,6 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
 
     pass
 
+if __name__ == '__main__':
+    data = data_manager.get_table_from_file('sales.csv')
+    print(show_table(data))

@@ -29,7 +29,6 @@ def start_module():
     """
 
     # you code
-
     pass
 
 
@@ -45,6 +44,8 @@ def show_table(table):
     """
 
     # your code
+    header = ['Id', 'Month', 'Day', 'Year', 'Type', 'Amount']
+    ui.print_table(table, header)
 
     pass
 
@@ -118,3 +119,8 @@ def avg_amount(table, year):
     # your code
 
     pass
+
+
+if __name__ == '__main__':
+    data = data_manager.get_table_from_file('items.csv')
+    a = (show_table(data))

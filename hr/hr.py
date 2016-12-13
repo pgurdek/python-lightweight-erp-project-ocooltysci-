@@ -43,6 +43,9 @@ def show_table(table):
 
     # your code
 
+    header = ['Id', 'Name', 'Birth date']
+
+    ui.print_table(table, header)
     pass
 
 
@@ -115,3 +118,7 @@ def get_persons_closest_to_average(table):
     # your code
 
     pass
+
+if __name__ == '__main__':
+    data = data_manager.get_table_from_file('persons.csv')
+    show_table(data)

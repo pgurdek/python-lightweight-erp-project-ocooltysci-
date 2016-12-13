@@ -29,7 +29,8 @@ def start_module():
     table = data_manager.get_table_from_file(file_name)
 
     title = "Store manager menu"
-    list_options = ["Show Table","Add","Remove","Update","Kinds of game of each manufacturer","Average amount of games in stock by manufacturer"]
+    list_options = ["Show Table", "Add", "Remove", "Update", "Kinds of game of each manufacturer",
+                    "Average amount of games in stock by manufacturer"]
     stay_in = True
     while stay_in:
         ui.print_menu(title, list_options, "Back to main menu")
@@ -93,8 +94,12 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
+    show_table(table)
+    choose_id = input('Choose ID to remove: ')
+    if idd in [table[n][0] for n in table]:
+        print(idd)
 
-
+    write_table_to_file(file_name, table)
 
     return table
 

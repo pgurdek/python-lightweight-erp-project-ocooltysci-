@@ -12,7 +12,7 @@ import random
 # @generated: string - randomly generated string (unique in the @table)
 
 
-def id_generator():
+def generate_random():
     import random
     """
     Generates random ID.
@@ -21,6 +21,7 @@ def id_generator():
     Returns:
         Random and unique string
     """
+    # Unique and randomly generated (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter)
     special_chars = ['!', '@', '#', '$', '%', '&']
     digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',

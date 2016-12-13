@@ -36,9 +36,12 @@ def start_module():
         elif user_input == "2":
             add(table)
         elif user_input == "3":
-            choose_id = input('Choose ID to remove: ')
+            show_table(table)
+            choose_id = ui.get_inputs("ID: ", 'Choose ID to remove')
             remove(table, choose_id)
         elif user_input == "4":
+            show_table(table)
+            id_ = ui.get_inputs("ID: ", 'Choose Id to change"')
             update(table, id_)
         elif user_input == "5":
             get_counts_by_manufacturers(table)
@@ -83,23 +86,15 @@ def remove(table, id_):
     show_table(table)
     file_name = 'store/games.csv'
     data_manager.write_table_to_file(file_name, table)
-
     return table
 
 
 def update(table, id_):
-    """
-    Updates specified record in the table. Ask users for new data.
+    """Updates specified record in the table. Ask users for new data. Args:
+    table: list in which record should be updated, id_ (str): id of a record
+    to update. Returns: table with updated record."""
 
-    Args:
-        table: list in which record should be updated
-        id_ (str): id of a record to update
 
-    Returns:
-        table with updated record
-    """
-
-    # your code
 
     return table
 

@@ -61,8 +61,6 @@ def start_module():
                 get_longest_name_id(table)
             elif choice == "6":
                 get_subscribed_emails(table)
-            elif choice == "9":
-                common.generate_random()
             elif choice == "0":
                 break
             else:
@@ -101,7 +99,7 @@ def add(table):
         record[3] = '0'
     else:
         while True:
-            print('Click y for yes or n for no')
+            print('Enter yes for or no')
             subscribed = ui.get_inputs(['Subscribed(yes/no)'], title)
             subscribed = subscribed[0]
             if subscribed == 'y' or subscribed == '1':

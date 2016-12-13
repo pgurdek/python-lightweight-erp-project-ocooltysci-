@@ -25,7 +25,7 @@ def start_module():
         None
     """
 
-    title = "Customer Relationship Management (CRM)\n"
+    title = "\nCustomer Relationship Management (CRM)"
     exit_statement = "Back to main menu"
     options = ["Show table", "Add item", "Remove item", "Update table",
     "What is the id of the customer with the longest name?",
@@ -47,13 +47,13 @@ def start_module():
                 add(table)
             elif choice == "3":
                 show_table(table)
-                id_input = ui.get_inputs(["type ID of the line, to remove it: "], "")
+                id_input = ui.get_inputs(["type ID of the line, to remove: "], "")
                 id_ = id_input[0]
                 remove(table, id_)
                 show_table(table)
             elif choice == "4":
                 show_table(table)
-                id_input = ui.get_inputs(["type ID of the line, to update it: "], "")
+                id_input = ui.get_inputs(["type ID of the line, to update: "], "")
                 id_ = id_input[0]
                 update(table, id_)
                 show_table(table)
@@ -62,7 +62,7 @@ def start_module():
             elif choice == "6":
                 get_subscribed_emails(table)
             elif choice == "9":
-                common.id_generator()
+                common.generate_random()
             elif choice == "0":
                 break
             else:
@@ -89,13 +89,28 @@ def add(table):
     Returns:
         Table with a new record
     """
-    ID = common.id_generator()
-    inputs = ["Name: ", "Email: ", "Newsletter, press 1 for yes or 0 for no: "]
-    user_input = ui.get_inputs(inputs, "")
-    # while user_input[2] != 'y' or user_input[2] != 'n':
-    user_input.insert(0, ID)
-
-    table.append(user_input)
+    title = "Add a new record"
+    list_labels = ['Name', 'Email', 'Subscribed']
+    record = [common.generate_random()]
+    inputs = ui.get_inputs(list_labels, title)
+    for things in inputs:
+        record.append(things)
+    if record[3] == 'yes' or record[3] == '1':
+        record[3] = '1'
+    elif record[3] == 'no' or record[3]:
+        record[3] = '0'
+    else:
+        while True:
+            print('Click y for yes or n for no')
+            subscribed = ui.get_inputs(['Subscribed(yes/no)'], title)
+            subscribed = subscribed[0]
+            if subscribed == 'y' or subscribed == '1':
+                record[3] = '1'
+                break
+            elif subscribed == 'n' or subscribed == '0':
+                record[3] = '0'
+                break
+    table.append(record)
     data_manager.write_table_to_file("crm/customers.csv", table)
     return table
 
@@ -128,16 +143,31 @@ def update(table, id_):
         id_ (str): id of a record to update
     Returns:
         table with updated record """
-    inputs = ui.get_inputs(["Name: ", "Email: ", "Newsletter: "], "Update your data: ")
-    counter = 0
-    for line in table:
-        if id_ in line[0]:
-            # inputs = ui.get_inputs("Update: ")
-            table[counter][1] = inputs[0]  # update name
-            table[counter][2] = inputs[1]  # update email
-            table[counter][3] = inputs[2]  # update newsletter
-        counter += 1
-    data_manager.write_table_to_file("crm/customers.csv", table)  # save updates
+
+    title = 'Update'
+    list_labels = ['Name', 'Email', 'Subscribed']
+    for data in range(len(table)):
+        if table[data][0] == id_:
+            inputs = ui.get_inputs(list_labels, title)
+            table[data][1] = inputs[0]
+            table[data][2] = inputs[1]
+            if inputs[2] == 'yes' or inputs[2] == '1':
+                table[data][3] = '1'
+            elif inputs[2] == 'no' or inputs[2] == '0':
+                table[data][3] = '0'
+            else:
+                while True:
+                    print('This is not yes or no')
+                    subscribed = ui.get_inputs(['Subscribed'], title)
+                    subscribed = subscribed[0]
+                    if subscribed == 'yes' or subscribed == '1':
+                        table[data][3] = '1'
+                        break
+                    elif subscribed == 'no' or subscribed == '0':
+                        table[data][3] = '0'
+                        break
+            data_manager.write_table_to_file("crm/customers.csv", table)
+            break
     return table
 
 

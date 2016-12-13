@@ -28,8 +28,44 @@ def start_module():
         None
     """
 
-    # you code
-    pass
+    title = "\nAccounting manager"
+    exit_statement = "Back to main menu"
+    options = ["Show table", "Add item", "Remove item", "Update table"]
+
+    module = os.path.dirname(__file__)
+    data_file = "items.csv"
+    data_file_path = os.path.join(module, data_file)
+    table = data_manager.get_table_from_file(data_file_path)
+
+
+    while True:
+            ui.print_menu(title, options, exit_statement)
+            choice = ui.get_inputs(["Choose your module: "], "")
+            choice = choice[0]
+
+            if choice == "1":
+                show_table(table)
+            elif choice == "2":
+                add(table)
+            elif choice == "3":
+                show_table(table)
+                id_input = ui.get_inputs(["type ID of the line, to remove: "], "")
+                id_ = id_input[0]
+                remove(table, id_)
+                show_table(table)
+            elif choice == "4":
+                show_table(table)
+                id_input = ui.get_inputs(["type ID of the line, to update: "], "")
+                id_ = id_input[0]
+                update(table, id_)
+                show_table(table)
+
+            elif choice == "0":
+                break
+            else:
+                ui.print_error_message("Wrong input")
+
+
 
 
 def show_table(table):

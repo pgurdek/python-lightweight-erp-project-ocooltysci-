@@ -65,11 +65,10 @@ def print_menu(title, list_options, exit_message):
     # your code
     print('{}:'.format(title))
     for index, option in enumerate(list_options):
-        print('   ({index}) {option}'.format(index=index+1,option = option))
+        print('   ({index}) {option}'.format(index=index+1, option=option))
 
-    print('   (0) {exit}'.format(exit = exit_message))
+    print('   (0) {exit}'.format(exit=exit_message))
 
-    pass
 
 
 def get_inputs(list_labels, title):

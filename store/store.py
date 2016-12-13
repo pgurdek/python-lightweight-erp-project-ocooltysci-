@@ -66,16 +66,14 @@ def add(table):
 def remove(table, id_):
     """
     Remove a record with a given id from the table.
-
     Args:
         table: table to remove a record from
         id_ (str): id of a record to be removed
-
     Returns:
         Table without specified record.
     """
 
-    # your code
+
 
     return table
 

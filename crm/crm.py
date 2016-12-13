@@ -62,7 +62,7 @@ def start_module():
             elif choice == "6":
                 get_subscribed_emails(table)
             elif choice == "9":
-                id_generator()
+                common.id_generator()
             elif choice == "0":
                 break
             else:
@@ -89,11 +89,10 @@ def add(table):
     Returns:
         Table with a new record
     """
-
-    inputs = ["Name: ", "Email: ", "Newsletter, press 'y' or 'n': "]
+    ID = common.id_generator()
+    inputs = ["Name: ", "Email: ", "Newsletter, press 1 for yes or 0 for no: "]
     user_input = ui.get_inputs(inputs, "")
     # while user_input[2] != 'y' or user_input[2] != 'n':
-    ID = id_generator()
     user_input.insert(0, ID)
 
     table.append(user_input)
@@ -140,42 +139,6 @@ def update(table, id_):
         counter += 1
     data_manager.write_table_to_file("crm/customers.csv", table)  # save updates
     return table
-
-
-def id_generator():
-    import random
-    """
-    Generates random ID.
-    Args:
-        table: list containing keys. Generated string should be different then all of them
-    Returns:
-        Random and unique string
-    """
-    special_chars = ['!', '@', '#', '$', '%', '&']
-    digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-    'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-    table = [[special_chars], [digits], [letters]]
-
-    generated = ''
-    is_unique = False
-    new_id = []
-    for row in table:
-        new_id.append(row[0])
-
-    while not is_unique:
-        is_unique = True
-        for i in range(2):
-            generated += str(special_chars[random.randint(0, len(special_chars)-1)])
-            generated += str(digits[random.randint(0, len(digits)-1)])
-            generated += str(letters[random.randint(0, len(letters)-1)])
-            generated += str(letters[random.randint(0, len(letters)-1)].upper())
-        if generated in new_id:
-            is_unique = False
-        print(generated)
-    return generated
-
-
 
 
 # special functions:

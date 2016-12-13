@@ -25,10 +25,31 @@ def start_module():
     Returns:
         None
     """
+    file_name = 'store/games.csv'
+    table = data_manager.get_table_from_file(file_name)
 
-    # your code
-
-    pass
+    title = "Store manager menu"
+    list_options = ["Show Table","Add","Remove","Update","Kinds of game of each manufacturer","Average amount of games in stock by manufacturer"]
+    stay_in = True
+    while stay_in:
+        ui.print_menu(title, list_options, "Back to main menu")
+        user_input = input('Choose your option: ')
+        if user_input == "1":
+            show_table(table)
+        elif user_input == "2":
+            add(table)
+        elif user_input == "3":
+            remove(table, id_)
+        elif user_input == "4":
+            update(table, id_)
+        elif user_input == "5":
+            get_counts_by_manufacturers(table)
+        elif user_input == "6":
+            get_average_by_manufacturer(table, manufacturer)
+        elif user_input == "0":
+            stay_in = False
+        else:
+            raise KeyError("There is no such option.")
 
 
 def show_table(table):
@@ -42,7 +63,7 @@ def show_table(table):
         None
     """
 
-    # your code
+    print(table)
 
     pass
 

@@ -1,6 +1,7 @@
 # implement commonly used functions here
 
 import random
+import string
 
 
 # generate and return a unique and random string
@@ -20,9 +21,20 @@ def generate_random(table):
     Returns:
         Random and unique string
     """
-
-    generated = ''
-
-    # your code
-
-    return generated
+    letters = string.ascii_lowercase
+    special_characters = (string.punctuation).replace(';', '')
+    id_table = [list(x) for x in zip(*table)][0]
+    not_unique = True
+    new_id = []
+    while not_unique:
+        for i in range(2):
+            new_id.append(random.choice(letters))
+            new_id.append(random.choice(letters.upper()))
+            new_id.append(random.choice(special_characters))
+            new_id.append(str(random.randint(0, 10)))
+        random.shuffle(new_id)
+        new_id = ''.join(new_id)
+        if new_id not in id_table:
+            not_unique = False
+    print(new_id)
+    return new_id

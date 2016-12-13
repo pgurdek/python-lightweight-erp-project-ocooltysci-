@@ -55,19 +55,10 @@ def start_module():
 
 
 def show_table(table):
-    """
-    Display a table
-
-    Args:
-        table: list of lists to be displayed.
-
-    Returns:
-        None
-    """
-    header = ['Id', 'Title', 'Manufacturer', 'Price', 'Type', 'In stock']
+    """ Display a table. Args: table: list of lists to be displayed.
+    Returns: None """
+    header = ['Id', 'Title', 'Manufacturer', 'Price', 'In stock']
     ui.print_table(table, header)
-
-    pass
 
 
 def add(table):
@@ -80,8 +71,7 @@ def add(table):
     Returns:
         Table with a new record
     """
-
-    # your code
+    new_id = common.generate_random(table)
 
     return table
 

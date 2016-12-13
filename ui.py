@@ -19,16 +19,38 @@ def print_table(table, title_list):
         This function doesn't return anything it only prints to console.
     """
 
+    zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
+    print(zip_table)
+    len_list = []  # list witch will store width of columns
+    for line in zip_table:
+        length_line = []
+        for item in line:  # check length of items in column from file
+            length_line.append(len(item))
+
+        len_list.append(max(length_line))  # append length of longest strin in column
+
+    i = 0
+    for title in (title_list):  # if header is longed than items, length of header is added to width list
+        if len(title) > len_list[i]:
+            len_list[i] = len(title)
+        i +=1
+
+
+    i = 0
     for title in title_list:
-        length = len(title)
-        print('|{:>9}'.format(title), end= '')
+        print('{:>{}}'.format(title, len_list[i] + 1), end= '|')
+        i += 1
+
     print()
 
     for line in table:
+        i = 0
         for item in line:
-            print('|{:>9}'.format(item), end= '')
+            print('{:>{}}'.format(item, len_list[i]+ 1), end= '|')
+            i+=1
         print("")
-    pass
+
+    return
 
 
 def print_result(result, label):

@@ -29,8 +29,15 @@ def start_module():
     """
 
     # your code
+    sales_options = ["Show Table","Add","Remove","Update","Lowest Price Item ID","Items Sorted Between Date"]
+    keep_menu = True
+    while keep_menu:
+        ui.print_menu('Sales Main Menu',sales_options,'Back To Menu')
+        try:
+            keep_menu = choose_sale()
+        except KeyError as err:
+            ui.print_error_message(err)
 
-    pass
 
 
 def show_table(table):
@@ -95,8 +102,35 @@ def update(table, id_):
     """
 
     # your code
+    for index,elements in enumerate(table):
+        if elements[0] in id_:
+            table[index] = ui.get_inputs(elements,'Please Speciy Data for this elements: ')
+            break
 
     return table
+# My Functions
+
+def choose_sale():
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+    data = data_manager.get_table_from_file('sales/sales.csv')
+    if option == "1":
+        show_table(data)
+        return True
+    elif option == "4":
+        update(data,ui.get_inputs(["Please enter ID"],"Pick the ID to update"))
+        return True
+    elif option == "0":
+        return False
+    else:
+        raise KeyError("There is no such option.")
+
+
+
+# data = data_manager.get_table_from_file('sales.csv')
+#
+#
+# print(data)
 
 
 # special functions:
@@ -119,3 +153,4 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     # your code
 
     pass
+

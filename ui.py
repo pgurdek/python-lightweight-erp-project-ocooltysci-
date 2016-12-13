@@ -19,9 +19,15 @@ def print_table(table, title_list):
         This function doesn't return anything it only prints to console.
     """
 
-    # your goes code
-    print(table)
+    for title in title_list:
+        length = len(title)
+        print('|{:>9}'.format(title), end= '')
+    print()
 
+    for line in table:
+        for item in line:
+            print('|{:>9}'.format(item), end= '')
+        print("")
     pass
 
 

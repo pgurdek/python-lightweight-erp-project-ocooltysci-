@@ -40,7 +40,8 @@ def start_module():
         elif user_input == "2":
             add(table)
         elif user_input == "3":
-            remove(table, id_)
+            choose_id = input('Choose ID to remove: ')
+            remove(table, choose_id)
         elif user_input == "4":
             update(table, id_)
         elif user_input == "5":
@@ -63,8 +64,8 @@ def show_table(table):
     Returns:
         None
     """
-
-    print(table)
+    header = ['Id', 'Title', 'Manufacturer', 'Price', 'Type', 'In stock']
+    ui.print_table(table, header)
 
     pass
 
@@ -95,11 +96,12 @@ def remove(table, id_):
         Table without specified record.
     """
     show_table(table)
-    choose_id = input('Choose ID to remove: ')
-    if idd in [table[n][0] for n in table]:
-        print(idd)
-
-    write_table_to_file(file_name, table)
+    for n in table:
+        if id_ in n:
+            table.remove(n)
+    show_table(table)
+    file_name = 'store/games.csv'
+    data_manager.write_table_to_file(file_name, table)
 
     return table
 

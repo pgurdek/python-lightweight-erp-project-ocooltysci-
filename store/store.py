@@ -17,14 +17,9 @@ import common
 
 
 def start_module():
-    """
-    Starts this module and displays its menu.
-    User can access default special features from here.
-    User can go back to main menu from here.
+    """ Starts this module and displays its menu. User can access default special
+    features from here. User can go back to main menu from here. Returns: None """
 
-    Returns:
-        None
-    """
     file_name = 'store/games.csv'
     table = data_manager.get_table_from_file(file_name)
 
@@ -32,6 +27,7 @@ def start_module():
     list_options = ["Show Table", "Add", "Remove", "Update", "Kinds of game of each manufacturer",
                     "Average amount of games in stock by manufacturer"]
     stay_in = True
+
     while stay_in:
         ui.print_menu(title, list_options, "Back to main menu")
         user_input = input('Choose your option: ')
@@ -57,34 +53,29 @@ def start_module():
 def show_table(table):
     """ Display a table. Args: table: list of lists to be displayed.
     Returns: None """
+
     header = ['Id', 'Title', 'Manufacturer', 'Price', 'In stock']
     ui.print_table(table, header)
 
 
 def add(table):
-    """
-    Asks user for input and adds it into the table.
+    """ Asks user for input and adds it into the table. Args: table:
+    table to add new record to. Returns: Table with a new record"""
 
-    Args:
-        table: table to add new record to
-
-    Returns:
-        Table with a new record
-    """
-    new_id = common.generate_random(table)
+    header = ['Title', 'Manufacturer', 'Price', 'In stock']
+    new_line = [common.generate_random(table)] + ui.get_inputs(header, "Add your data: ")
+    table.append(new_line)
+    file_name = 'store/games.csv'
+    data_manager.write_table_to_file(file_name, table)
 
     return table
 
 
 def remove(table, id_):
-    """
-    Remove a record with a given id from the table.
-    Args:
-        table: table to remove a record from
-        id_ (str): id of a record to be removed
-    Returns:
-        Table without specified record.
-    """
+    """Remove a record with a given id from the table. Args: table: table to
+    remove a record from id_ (str): id of a record to be removed. Returns:
+    Table without specified record. """
+
     show_table(table)
     for n in table:
         if id_ in n:

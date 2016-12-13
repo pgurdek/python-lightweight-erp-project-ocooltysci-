@@ -12,15 +12,9 @@ import string
 # @table: list of lists
 # @generated: string - randomly generated string (unique in the @table)
 def generate_random(table):
-    """
-    Generates random and unique string. Used for id/key generation.
-
-    Args:
-        table: list containing keys. Generated string should be different then all of them
-
-    Returns:
-        Random and unique string
-    """
+    """Generates random and unique string. Used for id/key generation.
+    Args:table: list containing keys. Generated string should be different then all of them
+    Returns: Random and unique string """
     letters = string.ascii_lowercase
     special_characters = (string.punctuation).replace(';', '')
     id_table = [list(x) for x in zip(*table)][0]
@@ -31,7 +25,7 @@ def generate_random(table):
             new_id.append(random.choice(letters))
             new_id.append(random.choice(letters.upper()))
             new_id.append(random.choice(special_characters))
-            new_id.append(str(random.randint(0, 10)))
+            new_id.append(str(random.randint(0, 9)))
         random.shuffle(new_id)
         new_id = ''.join(new_id)
         if new_id not in id_table:

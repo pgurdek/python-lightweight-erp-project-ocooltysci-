@@ -60,7 +60,9 @@ def start_module():
             elif choice == "5":
                 get_longest_name_id(table)
             elif choice == "6":
-                get_subscribed_emails(table)
+                nice_list = get_subscribed_emails(table)
+                print(nice_list)  # temporary!
+                ui.print_result('Newsletter Customers list: ', nice_list)  # result, label
             elif choice == "0":
                 break
             else:
@@ -184,8 +186,10 @@ def get_longest_name_id(table):
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
+
 def get_subscribed_emails(table):
-
-    # your code
-
-    pass
+    subscribed_list = []
+    for row in range(len(table)):
+        if table[row][3] == '1':
+            subscribed_list.append(table[row][2] + ';' + table[row][1])
+    return subscribed_list

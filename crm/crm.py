@@ -77,6 +77,7 @@ def show_table(table):
     Returns:
         None
     """
+
     title_list = ["id", "name", "email", "subscribed"]
     ui.print_table(table, title_list)
 

@@ -23,6 +23,7 @@ def print_table(table, title_list):
 
     zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
 
+
     len_list = []  # list witch will store width of columns
     for line in zip_table:
         length_line = []

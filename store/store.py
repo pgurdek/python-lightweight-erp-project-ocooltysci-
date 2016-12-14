@@ -67,6 +67,8 @@ def show_table(table):
     header = ['Id', 'Title', 'Manufacturer', 'Price', 'Type', 'In stock']
     ui.print_table(table, header)
 
+    header = ['Id', 'Title', 'Manufacturer', 'Price', 'In stock']
+    ui.print_table(table, header)
     pass
 
 
@@ -142,3 +144,7 @@ def get_average_by_manufacturer(table, manufacturer):
     # your code
 
     pass
+
+if __name__ == '__main__':
+    data = data_manager.get_table_from_file('games.csv')
+    show_table(data)

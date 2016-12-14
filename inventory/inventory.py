@@ -45,6 +45,9 @@ def show_table(table):
 
     # your code
 
+    header = ['Id', 'Title', 'Manufacturer', 'Purchase date', 'Durability']
+    ui.print_table(table, header)
+
     pass
 
 
@@ -121,3 +124,8 @@ def get_average_durability_by_manufacturers(table):
     # your code
 
     pass
+
+
+if __name__ == '__main__':
+    data = data_manager.get_table_from_file('inventory.csv')
+    a = (show_table(data))

@@ -44,6 +44,8 @@ def show_table(table):
 
     # your code
 
+    header = ['Id', 'Name', 'Email', 'Subscribed']
+    ui.print_table(table, header)
     pass
 
 
@@ -117,3 +119,7 @@ def get_subscribed_emails(table):
     # your code
 
     pass
+
+if __name__ == '__main__':
+    data = data_manager.get_table_from_file('customers.csv')
+    (show_table(data))

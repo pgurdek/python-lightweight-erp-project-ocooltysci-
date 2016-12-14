@@ -52,6 +52,9 @@ def show_table(table):
 
     # your code
 
+    header = ['Id', 'Name', 'Birth date']
+
+    ui.print_table(table, header)
     pass
 
 
@@ -136,6 +139,7 @@ def get_persons_closest_to_average(table):
 
     pass
 
+
 def choose_hr():
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
@@ -153,3 +157,5 @@ def choose_hr():
         return False
     else:
         raise KeyError("There is no such option.")
+
+

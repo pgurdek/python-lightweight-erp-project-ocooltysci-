@@ -28,9 +28,43 @@ def start_module():
         None
     """
 
-    # you code
+    title = "\nAccounting manager"
+    exit_statement = "Back to main menu"
+    options = ["Show table", "Add item", "Remove item", "Update table"]
 
-    pass
+    module = os.path.dirname(__file__)
+    data_file = "items.csv"
+    data_file_path = os.path.join(module, data_file)
+    table = data_manager.get_table_from_file(data_file_path)
+
+    while True:
+            ui.print_menu(title, options, exit_statement)
+            choice = ui.get_inputs(["Choose your module: "], "")
+            choice = choice[0]
+
+            if choice == "1":
+                show_table(table)
+            elif choice == "2":
+                add(table)
+            elif choice == "3":
+                show_table(table)
+                id_input = ui.get_inputs(["type ID of the line, to remove: "], "")
+                id_ = id_input[0]
+                remove(table, id_)
+                show_table(table)
+            elif choice == "4":
+                show_table(table)
+                id_input = ui.get_inputs(["type ID of the line, to update: "], "")
+                id_ = id_input[0]
+                update(table, id_)
+                show_table(table)
+
+            elif choice == "0":
+                break
+            else:
+                ui.print_error_message("Wrong input")
+
+
 
 
 def show_table(table):
@@ -45,8 +79,8 @@ def show_table(table):
     """
 
     # your code
-
-    pass
+    header = ['Id', 'Month', 'Day', 'Year', 'Type', 'Amount']
+    ui.print_table(table, header)
 
 
 def add(table):
@@ -62,6 +96,15 @@ def add(table):
 
     # your code
 
+    title = "Add a new record"
+    list_labels = ['Month', 'Day', 'Year', 'Type', 'Amount']
+    record = [common.generate_random()]
+
+    inputs = ui.get_inputs(list_labels, title)
+    for things in inputs:
+        record.append(things)
+    table.append(record)
+    data_manager.write_table_to_file("accounting/items.csv", table)
     return table
 
 
@@ -77,7 +120,13 @@ def remove(table, id_):
         Table without specified record.
     """
 
-    # your code
+
+    for n in table:
+        if id_ in n:
+            table.remove(n)
+
+
+    data_manager.write_table_to_file("accounting/items.csv", table)
 
     return table
 
@@ -94,8 +143,18 @@ def update(table, id_):
         table with updated record
     """
 
-    # your code
+    title = 'Update'
+    list_labels = ['Month', 'Day', 'Year', 'Type', 'Amount']
+    for data in range(len(table)):
+        if table[data][0] == id_:
+            inputs = ui.get_inputs(list_labels, title)
+            table[data][1] = inputs[0]
+            table[data][2] = inputs[1]
+            table[data][3] = inputs[2]
+            table[data][4] = inputs[3]
+            table[data][5] = inputs[4]
 
+    data_manager.write_table_to_file("accounting/items.csv", table)
     return table
 
 
@@ -118,3 +177,4 @@ def avg_amount(table, year):
     # your code
 
     pass
+

@@ -48,15 +48,14 @@ def start_module():
                 add(table)
             elif choice == "3":
                 show_table(table)
-                id_input = ui.get_inputs(["type ID of the line, to remove: "], "")
-                id_ = id_input[0]
-                remove(table, id_)
+                id_input = common.check_id(table)
+
+                remove(table, id_input)
                 show_table(table)
             elif choice == "4":
                 show_table(table)
-                id_input = ui.get_inputs(["type ID of the line, to update: "], "")
-                id_ = id_input[0]
-                update(table, id_)
+                id_input = common.check_id(table)
+                update(table, id_input)
                 show_table(table)
 
             elif choice =="5":
@@ -245,3 +244,12 @@ def input_record():
             break
 
     return inputs
+
+def check_id(table):
+    table_rev = [list(x) for x in zip(*table)]
+
+    while True:
+        type_id = ui.get_inputs(['ABCDEFGHI format'], 'Type id')
+
+        if type_id[0] in table_rev[0]:
+            return type_id[0]

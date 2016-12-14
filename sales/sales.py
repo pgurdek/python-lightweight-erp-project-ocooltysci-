@@ -32,14 +32,20 @@ def start_module():
 
     data = data_manager.get_table_from_file('sales/sales.csv')
     sales_options = ["Show Table","Add","Remove","Update","Lowest Price Item ID","Items Sorted Between Date"]
-    keep_menu = True
-    while keep_menu:
+    while True:
         ui.print_menu('Sales Main Menu',sales_options,'Back To Menu')
         try:
-            keep_menu = choose_sale(data)
+            data = choose_sale(data)
         except KeyError as err:
             ui.print_error_message(err)
+        if not data[0]:
+            data_manager.write_table_to_file('sales/sales.csv', data[1])
+            return True
+def header_info():
 
+    header = ['Id', 'Title', 'Price', 'Month', 'Day', 'Year']
+
+    return header
 
 def show_table(table):
     """
@@ -54,8 +60,8 @@ def show_table(table):
 
     # your code
 
-    header = ['Id', 'Title', 'Price', 'Month', 'Day', 'Year']
-    ui.print_table(table, header)
+
+    ui.print_table(table, header_info())
 
     pass
 
@@ -70,11 +76,61 @@ def add(table):
     Returns:
         Table with a new record
     """
-    
+
 
     # your code
+    headers = header_info()
+    numbers_of_values = len(headers)
+    temp_list = []
+    for index, header_title in enumerate(headers):
+        if index == 0:
+            temp_list.append(common.generate_random())
 
+        else:
+            values = value_checker(header_title)
+            temp_list.extend(values)
+            # temp_list.append()
+
+    table.append(temp_list)
     return table
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+
+def value_checker(title):
+    keep_checking = True
+
+    while keep_checking:
+        value = ui.get_inputs([title], '')
+
+        if title == "Price":
+            if is_number(value[0]):
+                return value
+
+        elif title == "Day":
+            if is_number(value[0]):
+                number  = int(value[0])
+                if number > 0 and number < 32:
+                    return value
+
+        elif title == "Month":
+            if is_number(value[0]):
+                number  = int(value[0])
+                if number > 0 and number <= 12:
+                    return value
+
+        elif title == "Year":
+            if is_number(value[0]):
+                number  = int(value[0])
+                if number > 1990 and number <= 2100:
+                    return value
+        else:
+            return value
 
 
 def remove(table, id_):
@@ -90,7 +146,12 @@ def remove(table, id_):
     """
 
     # your code
-
+    for index, line in enumerate(table):
+        if line[0] == id_[0]:
+            table.pop(index)
+            break
+        else:
+            ui.print_error_message('Wrong Index, Try again')
     return table
 
 
@@ -107,7 +168,6 @@ def update(table, id_):
     """
 
     # your code
-    show_table(table)
     for index,elements in enumerate(table):
         if elements[0] in id_:
             table[index] = ui.get_inputs(elements,'Please Speciy Data for this elements: ')
@@ -122,12 +182,19 @@ def choose_sale(data):
 
     if option == "1":
         show_table(data)
-        return True
+        return data
+    elif option == "2":
+         return add(data)
+    elif option == "3":
+        show_table(data)
+        return remove(data,ui.get_inputs(["Please enter ID"],"Delete ID"))
     elif option == "4":
+        show_table(data)
         update(data,ui.get_inputs(["Please enter ID"],"Pick the ID to update"))
         return True
     elif option == "0":
-        return False
+        return False,data
+
     else:
         raise KeyError("There is no such option.")
 
@@ -135,10 +202,6 @@ def choose_sale(data):
 
 # data = data_manager.get_table_from_file('sales.csv')
 #
-#
-# print(data)
-
-
 # special functions:
 # ------------------
 
@@ -159,7 +222,3 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     # your code
 
     pass
-
-if __name__ == '__main__':
-    data = data_manager.get_table_from_file('sales.csv')
-    print(show_table(data))

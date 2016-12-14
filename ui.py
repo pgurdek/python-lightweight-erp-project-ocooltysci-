@@ -68,8 +68,14 @@ def print_result(result, label):
         This function doesn't return anything it only prints to console.
     """
 
+
     if type(result) == str:
         print('\n{}: {}'.format(label, result))
+
+    elif type(result) == int:
+        print('\n {}: {}'.format(label, result))
+
+
 
 
 def print_menu(title, list_options, exit_message):

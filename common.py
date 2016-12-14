@@ -1,7 +1,7 @@
 # implement commonly used functions here
 
 import random
-
+import ui
 
 # generate and return a unique and random string
 # other expectation:
@@ -46,4 +46,19 @@ def generate_random():
     print(generated)
     return generated
 
-generate_random()
+
+def check_id(table):
+    """
+    Checks if typed id is in list with all ids, return typed id if it correct
+
+    :param table: table created by datamenager from .csv file
+    :return: id as string
+    """
+
+    table_rev = [list(x) for x in zip(*table)]
+
+    while True:
+        c_id = ui.get_inputs(['ABCDEFGHI format'], 'Type id')
+
+        if c_id[0] in table_rev[0]:
+            return c_id[0]

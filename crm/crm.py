@@ -61,7 +61,7 @@ def start_module():
                 get_longest_name_id(table)
             elif choice == "6":
                 nice_list = get_subscribed_emails(table)
-                print(nice_list)  # temporary!
+                show_nicelist(nice_list)
                 ui.print_result('Newsletter Customers list: ', nice_list)  # result, label
             elif choice == "0":
                 break
@@ -94,24 +94,31 @@ def add(table):
     list_labels = ['Name', 'Email', 'Subscribed']
     record = [common.generate_random()]
     inputs = ui.get_inputs(list_labels, title)
-    for things in inputs:
-        record.append(things)
-    if record[3] == 'yes' or record[3] == '1':
-        record[3] = '1'
-    elif record[3] == 'no' or record[3]:
-        record[3] = '0'
-    else:
-        while True:
-            print('Enter yes for or no')
-            subscribed = ui.get_inputs(['Subscribed(yes/no)'], title)
-            subscribed = subscribed[0]
-            if subscribed == 'y' or subscribed == '1':
-                record[3] = '1'
-                break
-            elif subscribed == 'n' or subscribed == '0':
-                record[3] = '0'
-                break
-    table.append(record)
+    allowed = ['y', 'n', '1', '0']
+    while True:
+        if len(inputs[0]) > 2:
+            break
+        else:
+            new_in = ui.get_inputs(['Name'], title)
+            inputs[0] = new_in[0]
+    while True:
+        if inputs[2] in allowed:
+            break
+        else:
+            new_in = ui.get_inputs(['Subscribed'], title)
+            inputs[2] = new_in[0]
+    if inputs[2] == 'y':
+        inputs[2] = '1'
+    elif inputs[2] == 'n':
+        inputs[2] = '0'
+    while True:
+        if '@' in inputs[1]:
+            break
+        else:
+            new_in = ui.get_inputs(['Email'], title)
+            inputs[1] = new_in[0]
+    inputs.insert(0, record[0])
+    table.append(inputs)
     data_manager.write_table_to_file("crm/customers.csv", table)
     return table
 
@@ -152,23 +159,29 @@ def update(table, id_):
             inputs = ui.get_inputs(list_labels, title)
             table[data][1] = inputs[0]
             table[data][2] = inputs[1]
-            if inputs[2] == 'yes' or inputs[2] == '1':
-                table[data][3] = '1'
-            elif inputs[2] == 'no' or inputs[2] == '0':
-                table[data][3] = '0'
-            else:
-                while True:
-                    subscribed = ui.get_inputs(['Subscribed'], title)
-                    subscribed = subscribed[0]
-                    if subscribed == 'yes' or subscribed == '1':
-                        table[data][3] = '1'
-                        break
-                    elif subscribed == 'no' or subscribed == '0':
-                        table[data][3] = '0'
-                        break
+            check(inputs, table, data)
             data_manager.write_table_to_file("crm/customers.csv", table)
             break
     return table
+
+
+def check(inputs, table, data):
+    title = 'Update'
+    if inputs[2] == 'y' or inputs[2] == '1':
+        table[data][3] = '1'
+    elif inputs[2] == 'n' or inputs[2] == '0':
+        table[data][3] = '0'
+    else:
+        while True:
+            subscribed = ui.get_inputs(['Subscribed'], title)
+            subscribed = subscribed[0]
+            if subscribed == 'y' or subscribed == '1':
+                table[data][3] = '1'
+                break
+            elif subscribed == 'n' or subscribed == '0':
+                table[data][3] = '0'
+                break
+    return inputs
 
 
 # special functions:
@@ -193,3 +206,14 @@ def get_subscribed_emails(table):
         if table[row][3] == '1':
             subscribed_list.append(table[row][2] + ';' + table[row][1])
     return subscribed_list
+
+
+def show_nicelist(nice_list):
+        to_print_list = []
+        for item in nice_list:
+            item = str(item).split(';')
+            item[0], item[1] = item[1], item[0]
+            to_print_list.append(item)
+
+        header = ['Name', 'email']
+        ui.print_table(to_print_list, header)

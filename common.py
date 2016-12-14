@@ -1,7 +1,7 @@
 # implement commonly used functions here
 
 import random
-
+import ui
 
 # generate and return a unique and random string
 # other expectation:
@@ -14,6 +14,7 @@ import random
 
 def generate_random():
     import random
+    import string
     """
     Generates random ID.
     Args:
@@ -24,8 +25,7 @@ def generate_random():
     # Unique and randomly generated (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter)
     special_chars = ['!', '@', '#', '$', '%', '&']
     digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-    'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    letters = string.ascii_lowercase
     table = [[special_chars], [digits], [letters]]
 
     generated = ''
@@ -43,5 +43,35 @@ def generate_random():
             generated += str(letters[random.randint(0, len(letters)-1)].upper())
         if generated in new_id:
             is_unique = False
-        # print(generated)
+    print(generated)
     return generated
+
+
+def check_id(table):
+    """
+    Checks if typed id is in list with all ids, return typed id if it correct
+
+    :param table: table created by datamenager from .csv file
+    :return: id as string
+    """
+
+    table_rev = [list(x) for x in zip(*table)]
+
+    while True:
+        c_id = ui.get_inputs(['ABCDEFGHI format'], 'Type id')
+
+        if c_id[0] in table_rev[0]:
+            return c_id[0]
+        else:
+            ui.print_error_message('Wrong id')
+
+
+def clear():
+    """
+    Prints empty line 50 times
+
+    :return: nothing, only prints to console
+    """
+
+    clear = "\n" * 50
+    print(clear)

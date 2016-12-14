@@ -101,6 +101,29 @@ def add(table):
     record = [common.generate_random()]
 
     inputs = ui.get_inputs(list_labels, title)
+
+    numeric_labels = [inputs[0], inputs[1], inputs[2], inputs[4]]
+    print(numeric_labels)
+
+
+    check_input = []
+    if inputs[0] not in range(1,13):
+        print("wrong month format")
+        return
+    if inputs[1] not in range(1,32):
+        print("wrong day format")
+        return
+    if (len(inputs[2]) != 4) and not (str(inputs[2]).isdigit()):
+        print("wrong year format")
+        return
+    if inputs[3] != ('in' or 'out'):
+        print("wrong type format")
+        return
+    if not(str(inputs[4]).isdigit()):
+        print("wrong amount")
+        return        
+
+
     for things in inputs:
         record.append(things)
     table.append(record)

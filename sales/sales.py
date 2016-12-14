@@ -29,15 +29,16 @@ def start_module():
     """
 
     # your code
+
+    data = data_manager.get_table_from_file('sales/sales.csv')
     sales_options = ["Show Table","Add","Remove","Update","Lowest Price Item ID","Items Sorted Between Date"]
     keep_menu = True
     while keep_menu:
         ui.print_menu('Sales Main Menu',sales_options,'Back To Menu')
         try:
-            keep_menu = choose_sale()
+            keep_menu = choose_sale(data)
         except KeyError as err:
             ui.print_error_message(err)
-
 
 
 def show_table(table):
@@ -69,6 +70,7 @@ def add(table):
     Returns:
         Table with a new record
     """
+    
 
     # your code
 
@@ -105,6 +107,7 @@ def update(table, id_):
     """
 
     # your code
+    show_table(table)
     for index,elements in enumerate(table):
         if elements[0] in id_:
             table[index] = ui.get_inputs(elements,'Please Speciy Data for this elements: ')
@@ -113,10 +116,10 @@ def update(table, id_):
     return table
 # My Functions
 
-def choose_sale():
+def choose_sale(data):
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
-    data = data_manager.get_table_from_file('sales/sales.csv')
+
     if option == "1":
         show_table(data)
         return True

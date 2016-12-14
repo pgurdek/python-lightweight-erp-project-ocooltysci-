@@ -29,12 +29,10 @@ def start_module():
     stay_in = True
 
     while stay_in:
-        print('Kupa')
         ui.print_menu(title, list_options, "Back to main menu")
-        user_input = ui.get_inputs(["of module"], 'Choose number')[0]
+        user_input = ui.get_inputs(["of action"], 'Choose number')[0]
 
         if user_input == "1":  # show_table
-            print('Kuuuuupa')
             show_table(table)
         elif user_input == "2":  # add
             add(table)
@@ -49,6 +47,8 @@ def start_module():
         elif user_input == "5":
             get_counts_by_manufacturers(table)
         elif user_input == "6":
+            common.list_to_choose(table, 2, "Manufacturers you can choose from:")
+            manufacturer = ui.get_inputs(["manufacturer"], 'Choose your')[0]
             get_average_by_manufacturer(table, manufacturer)
         elif user_input == "0":
             stay_in = False
@@ -59,7 +59,6 @@ def start_module():
 def show_table(table):
     """ Display a table. Args: table: list of lists to be displayed.
     Returns: None """
-    print('Duuuupaaa')
     header = ['Id', 'Title', 'Manufacturer', 'Price', 'In stock']
     ui.print_table(table, header)
 
@@ -110,7 +109,7 @@ def update(table, id_):
         data = ui.get_inputs(["To update: "],
                              'Choose data to update: 1-Title, 2-Manufacturer, 3-Price, 4-In stock, 0-End of edditing')
         if data[0] in ["1", '2', '3', '4']:
-            line_to_update[int(data[0])] = ui.get_inputs(["New data"],'')[0]
+            line_to_update[int(data[0])] = ui.get_inputs(["New data"], '')[0]
             table[line_index] = line_to_update
 
             data_manager.write_table_to_file(file_name, table)
@@ -124,9 +123,11 @@ def update(table, id_):
 # special functions:
 # ------------------
 
-# the question: How many different kinds of game are available of each manufacturer?
-# return type: a dictionary with this structure: { [manufacturer] : [count] }
 def get_counts_by_manufacturers(table):
+    """Answer the question: the question: How many different kinds of game
+    are available of each manufacturer? Args: table with all games.
+    Returns: a dictionary with this structure: { [manufacturer] : [count]."""
+
     label = ['Manufacturer', 'Amount of games']
     manufacturer_games = {}
     for game in table:
@@ -138,10 +139,10 @@ def get_counts_by_manufacturers(table):
     return manufacturer_games
 
 
-# the question: What is the average amount of games in stock of a given manufacturer?
-# return type: number
 def get_average_by_manufacturer(table, manufacturer):
+    """Answer the question: What is the average amount of games in stock of
+    a given manufacturer?? Args: table with all games. Returns: number of games"""
 
-    # your code
-
-    pass
+    stock_amount = [int(game[4]) for game in table if game[2] == manufacturer]
+    stock = common.average(stock_amount)
+    return stock

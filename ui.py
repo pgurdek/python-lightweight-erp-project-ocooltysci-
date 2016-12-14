@@ -18,7 +18,6 @@ def print_table(table, title_list):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-    print("dupa")
     zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
     len_list = []  # list witch will store width of columns
     for line in zip_table:
@@ -56,6 +55,10 @@ def print_result(result, label):
     This function doesn't return anything it only prints to console. """
     if type(result) == dict:
         print_table(dict_to_table(result), label)
+    elif type(result) == list or type(result) == tuple:
+        print(label)
+        for item in set(result):
+            print(item)
 
 def dict_to_table(dictionary):
     """Changes dictionary to table for printing"""

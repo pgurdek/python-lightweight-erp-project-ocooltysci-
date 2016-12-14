@@ -2,6 +2,7 @@
 
 import random
 import string
+import ui
 
 
 # generate and return a unique and random string
@@ -31,3 +32,26 @@ def generate_random(table):
         if new_id not in id_table:
             not_unique = False
     return new_id
+
+
+def list_to_choose(table, kolumn, title):
+    """Generates a list of one specific data from table, printed when user want
+    to choose one item from it, for egzemple one manufacturer.
+    Args:table and index -number- of kolumn we want to extract from table, and title
+    - what kind of data list will contain. Returns: Simple list of strings """
+
+    specyfic_data = list(zip(*table))[kolumn]
+    ui.print_result(specyfic_data, title)
+    return specyfic_data
+
+
+def average(list_of_amount):
+    """Counts average of number in list"""
+    return sum_of(list_of_amount)/len(list_of_amount)
+
+def sum_of(list_of_amount):
+    """Counts sum of number in list"""
+    amount = 0
+    for number in list_of_amount:
+        amount += number
+    return amount

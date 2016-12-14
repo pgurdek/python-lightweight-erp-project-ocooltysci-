@@ -62,3 +62,16 @@ def check_id(table):
 
         if c_id[0] in table_rev[0]:
             return c_id[0]
+        else:
+            ui.print_error_message('Wrong id')
+
+
+def clear():
+    """
+    Prints empty line 50 times
+
+    :return: nothing, only prints to console
+    """
+
+    clear = "\n" * 50
+    print(clear)

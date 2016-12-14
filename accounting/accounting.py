@@ -205,6 +205,9 @@ def avg_amount(table, year):
 
 def input_record():
     inputs = []
+    def error():
+        error = ui.print_error_message('Wrong input type')
+
     while True:
         month = ui.get_inputs(['number without 0'], 'Type month')
 
@@ -212,6 +215,8 @@ def input_record():
             if int(month[0]) < 13 and int(month[0]) > 0:
                 inputs.append(month[0])
                 break
+            else: error()
+        else: error()
 
     while True:
         day = ui.get_inputs(['number without 0'], 'Type day')
@@ -220,6 +225,8 @@ def input_record():
             if int(day[0]) < 32:
                 inputs.append(day[0])
                 break
+            else: error()
+        else: error()
 
     while True:
         year = ui.get_inputs(['YYYY format'], 'Type year')
@@ -228,6 +235,8 @@ def input_record():
             if len(year[0]) == 4:
                 inputs.append(year[0])
                 break
+            else: error()
+        else: error()
 
     while True:
         type_inp = ui.get_inputs(["'in' or 'out'"], 'Type type of item')
@@ -235,6 +244,7 @@ def input_record():
         if type_inp[0] in ['in', 'out']:
             inputs.append(type_inp[0])
             break
+        else: error()
 
     while True:
         amount = ui.get_inputs(['Amount as number'], 'Type amount')
@@ -242,6 +252,7 @@ def input_record():
         if amount[0].isdigit():
             inputs.append(amount[0])
             break
+        else: error()
 
     return inputs
 
@@ -253,3 +264,4 @@ def check_id(table):
 
         if type_id[0] in table_rev[0]:
             return type_id[0]
+

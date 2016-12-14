@@ -157,7 +157,6 @@ def update(table, id_):
                 table[data][3] = '0'
             else:
                 while True:
-                    print('This is not yes or no')
                     subscribed = ui.get_inputs(['Subscribed'], title)
                     subscribed = subscribed[0]
                     if subscribed == 'yes' or subscribed == '1':

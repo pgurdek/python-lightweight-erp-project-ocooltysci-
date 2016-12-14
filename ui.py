@@ -20,10 +20,39 @@ def print_table(table, title_list):
     """
 
     # your goes code
-    print(table)
 
-    pass
+    zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
 
+    len_list = []  # list witch will store width of columns
+    for line in zip_table:
+        length_line = []
+        for item in line:  # check length of items in column from file
+            length_line.append(len(item))
+
+        len_list.append(max(length_line))  # append length of longest strin in column
+
+    i = 0
+    for title in (title_list):  # if header is longed than items, length of header is added to width list
+        if len(title) > len_list[i]:
+            len_list[i] = len(title)
+        i+=1
+
+
+    i = 0
+    for title in title_list:
+        print('{:>{}}'.format(title, len_list[i] + 1), end= '|')
+        i += 1
+
+    print()
+
+    for line in table:
+        i = 0
+        for item in line:
+            print('{:>{}}'.format(item, len_list[i]+ 1), end= '|')
+            i+=1
+        print("")
+
+    return
 
 def print_result(result, label):
     """

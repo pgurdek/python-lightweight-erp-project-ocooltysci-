@@ -58,7 +58,8 @@ def start_module():
                 update(table, id_)
                 show_table(table)
             elif choice == "5":
-                get_longest_name_id(table)
+                longest_id = get_longest_name_id(table)
+                ui.print_result(longest_id, 'longest name ID')
             elif choice == "6":
                 nice_list = get_subscribed_emails(table)
                 show_nicelist(nice_list)
@@ -191,14 +192,21 @@ def check(inputs, table, data):
 # the question: What is the id of the customer with the longest name ?
 # return type: string (id) - if there are more than one longest name, return the first by descending alphabetical order
 def get_longest_name_id(table):
+    names = [[row[0], row[1]] for row in table]
+    longest = bubble(names)[0][0]
+    return longest
 
-    # your code
 
-    pass
-
+def bubble(lst):
+    for i in range(len(lst)):
+        for name in range(len(lst) - 1, i, -1):
+            if lst[name][1] < lst[name - 1][1]:
+                lst[name], lst[name - 1] = lst[name - 1], lst[name]
+    return lst
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
+
 
 def get_subscribed_emails(table):
     subscribed_list = []

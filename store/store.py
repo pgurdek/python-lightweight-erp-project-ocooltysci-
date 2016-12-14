@@ -29,9 +29,12 @@ def start_module():
     stay_in = True
 
     while stay_in:
+        print('Kupa')
         ui.print_menu(title, list_options, "Back to main menu")
-        user_input = ui.get_inputs([], 'Choose your option')
+        user_input = ui.get_inputs(["of module"], 'Choose number')[0]
+
         if user_input == "1":  # show_table
+            print('Kuuuuupa')
             show_table(table)
         elif user_input == "2":  # add
             add(table)
@@ -56,7 +59,7 @@ def start_module():
 def show_table(table):
     """ Display a table. Args: table: list of lists to be displayed.
     Returns: None """
-
+    print('Duuuupaaa')
     header = ['Id', 'Title', 'Manufacturer', 'Price', 'In stock']
     ui.print_table(table, header)
 
@@ -124,12 +127,14 @@ def update(table, id_):
 # the question: How many different kinds of game are available of each manufacturer?
 # return type: a dictionary with this structure: { [manufacturer] : [count] }
 def get_counts_by_manufacturers(table):
+    label = ['Manufacturer', 'Amount of games']
     manufacturer_games = {}
     for game in table:
         if game[2] in list(manufacturer_games.keys()):
             manufacturer_games[game[2]] += 1
         else:
             manufacturer_games[game[2]] = 1
+    ui.print_result(manufacturer_games, label)
     return manufacturer_games
 
 

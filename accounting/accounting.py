@@ -65,8 +65,6 @@ def start_module():
                 ui.print_error_message("Wrong input")
 
 
-
-
 def show_table(table):
     """
     Display a table
@@ -78,7 +76,6 @@ def show_table(table):
         None
     """
 
-    # your code
     header = ['Id', 'Month', 'Day', 'Year', 'Type', 'Amount']
     ui.print_table(table, header)
 
@@ -94,13 +91,13 @@ def add(table):
         Table with a new record
     """
 
-    # your code
-
     title = "Add a new record"
     list_labels = ['Month', 'Day', 'Year', 'Type', 'Amount']
     record = [common.generate_random()]
 
-    inputs = ui.get_inputs(list_labels, title)
+    inputs = input_record()
+
+
     for things in inputs:
         record.append(things)
     table.append(record)
@@ -147,7 +144,7 @@ def update(table, id_):
     list_labels = ['Month', 'Day', 'Year', 'Type', 'Amount']
     for data in range(len(table)):
         if table[data][0] == id_:
-            inputs = ui.get_inputs(list_labels, title)
+            inputs = input_record()
             table[data][1] = inputs[0]
             table[data][2] = inputs[1]
             table[data][3] = inputs[2]
@@ -178,3 +175,47 @@ def avg_amount(table, year):
 
     pass
 
+
+
+
+def input_record():
+    inputs = []
+    while True:
+        month = ui.get_inputs(['MM format'], 'Type month')
+
+        if month[0].isdigit():
+            if int(month[0]) < 13:
+                inputs.append(month[0])
+                break
+
+    while True:
+        day = ui.get_inputs(['DD format'], 'Type day')
+
+        if day[0].isdigit():
+            if int(day[0]) < 32:
+                inputs.append(day[0])
+                break
+
+    while True:
+        year = ui.get_inputs(['YYYY format'], 'Type year')
+
+        if year[0].isdigit():
+            if len(year[0]) == 4:
+                inputs.append(year[0])
+                break
+
+    while True:
+        type_inp = ui.get_inputs(["'in' or 'out'"], 'Type type of item')
+
+        if type_inp[0] in ['in', 'out']:
+            inputs.append(type_inp[0])
+            break
+
+    while True:
+        amount = ui.get_inputs(['Amount as number'], 'Type amount')
+
+        if amount[0].isdigit():
+            inputs.append(amount[0])
+            break
+
+    return inputs

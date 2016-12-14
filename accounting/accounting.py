@@ -30,7 +30,7 @@ def start_module():
 
     title = "\nAccounting manager"
     exit_statement = "Back to main menu"
-    options = ["Show table", "Add item", "Remove item", "Update table"]
+    options = ["Show table", "Add item", "Remove item", "Update table", "Which year has the highest profit?", "What is the average (per item) profit in a given year?"]
 
     module = os.path.dirname(__file__)
     data_file = "items.csv"
@@ -58,6 +58,13 @@ def start_module():
                 id_ = id_input[0]
                 update(table, id_)
                 show_table(table)
+
+            elif choice =="5":
+                which_year_max(table)
+
+            elif choice =="6":
+                year_input = ui.get_inputs(["YYYY format"], "Type year")
+                avg_amount(table, year_input)
 
             elif choice == "0":
                 break
@@ -161,21 +168,39 @@ def update(table, id_):
 # the question: Which year has the highest profit? (profit=in-out)
 # return the answer (number)
 def which_year_max(table):
+    income = {}
+    loss = {}
+    profit = {}
+    for record in table:
+        income[record[3]] = 0
+        loss[record[3]] = 0
+    for record in table:
+        if record[4] == 'in':
+            income[record[3]] += int(record[5])
 
-    # your code
+    for record in table:
+        if record[4] == 'out':
+            loss[record[3]] += int(record[5])
 
-    pass
+
+    for item in income:
+        profit_year = income[item] - loss[item]
+
+        profit[item]=profit_year
+
+    year_max = int(max(profit, key=profit.get))
+    return year_max
+
 
 
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
 # return the answer (number)
 def avg_amount(table, year):
 
+
     # your code
 
     pass
-
-
 
 
 def input_record():
@@ -184,7 +209,7 @@ def input_record():
         month = ui.get_inputs(['MM format'], 'Type month')
 
         if month[0].isdigit():
-            if int(month[0]) < 13:
+            if int(month[0]) < 13 and int(month[0]) > 0:
                 inputs.append(month[0])
                 break
 

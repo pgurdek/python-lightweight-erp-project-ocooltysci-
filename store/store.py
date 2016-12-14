@@ -31,17 +31,17 @@ def start_module():
     while stay_in:
         ui.print_menu(title, list_options, "Back to main menu")
         user_input = input('Choose your option: ')
-        if user_input == "1":
+        if user_input == "1":  # show_table
             show_table(table)
-        elif user_input == "2":
+        elif user_input == "2":  # add
             add(table)
-        elif user_input == "3":
+        elif user_input == "3":  # remove
             show_table(table)
-            choose_id = ui.get_inputs("ID: ", 'Choose ID to remove')
+            choose_id = ui.get_inputs(["ID: "], 'Choose ID to remove')
             remove(table, choose_id)
-        elif user_input == "4":
+        elif user_input == "4":  # update
             show_table(table)
-            id_ = ui.get_inputs("ID: ", 'Choose Id to change"')
+            id_ = ui.get_inputs(["ID: "], 'Choose Id to change')[0]
             update(table, id_)
         elif user_input == "5":
             get_counts_by_manufacturers(table)
@@ -81,7 +81,7 @@ def remove(table, id_):
 
     show_table(table)
     for n in table:
-        if id_ in n:
+        if id_[0] in n:
             table.remove(n)
     show_table(table)
     file_name = 'store/games.csv'
@@ -94,7 +94,35 @@ def update(table, id_):
     table: list in which record should be updated, id_ (str): id of a record
     to update. Returns: table with updated record."""
 
+    #  line_to_update = [line for line in table if line[0] == id_][0]
+    for n, line in enumerate(table):
+        if line[0] == id_:
+            line_to_update = line
+            line_index = n
+    print(line_index, line_to_update)
 
+    while True:
+        data = ui.get_inputs(["To update: ", "New data: ", "Is data correct: y/n:", "Do you want end update y/n: "],
+                             'Choose data to update: 1-Title, 2-Manufacturer, 3-Price, 4-In stock, 0-End of edditing')
+        if data[2] == 'y':
+            if data[0] == "1":  # title
+                line_to_update[1] = data[1]
+            elif data[0] == "2":  # add
+                line_to_update[2] = data[1]
+            elif data[0] == "3":  # remove
+                line_to_update[3] = data[1]
+            elif data[0] == "4":  # update
+                line_to_update[4] = data[1]
+            elif data[0] == "0":
+                break
+            else:
+                raise KeyError("There is no such data.")
+        elif data[2] == 'n':
+            break
+        else:
+            raise KeyError("Wrong letter.")
+    print(line_to_update)
+    table[n] = line_to_update
 
     return table
 

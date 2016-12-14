@@ -30,5 +30,4 @@ def generate_random(table):
         new_id = ''.join(new_id)
         if new_id not in id_table:
             not_unique = False
-    print(new_id)
     return new_id

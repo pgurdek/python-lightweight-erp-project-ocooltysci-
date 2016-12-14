@@ -60,7 +60,8 @@ def start_module():
                 show_table(table)
 
             elif choice =="5":
-                which_year_max(table)
+                max_year = which_year_max(table)
+                ui.print_result(max_year, 'Year with highest profit')
 
             elif choice =="6":
                 year_input = ui.get_inputs(["YYYY format"], "Type year")

@@ -67,7 +67,9 @@ def print_result(result, label):
         This function doesn't return anything it only prints to console.
     """
 
-    # your code
+    if type(result) == int:
+        print('\n {}: {}'.format(label, result))
+
 
     pass
 

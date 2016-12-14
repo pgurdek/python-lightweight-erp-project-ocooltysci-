@@ -30,7 +30,7 @@ def start_module():
 
     while stay_in:
         ui.print_menu(title, list_options, "Back to main menu")
-        user_input = input('Choose your option: ')
+        user_input = ui.get_inputs([], 'Choose your option')
         if user_input == "1":  # show_table
             show_table(table)
         elif user_input == "2":  # add
@@ -83,7 +83,6 @@ def remove(table, id_):
     for n in table:
         if id_[0] in n:
             table.remove(n)
-    show_table(table)
     file_name = 'store/games.csv'
     data_manager.write_table_to_file(file_name, table)
     return table
@@ -95,35 +94,27 @@ def update(table, id_):
     to update. Returns: table with updated record."""
 
     #  line_to_update = [line for line in table if line[0] == id_][0]
+    file_name = 'store/games.csv'
+
     for n, line in enumerate(table):
         if line[0] == id_:
             line_to_update = line
             line_index = n
-    print(line_index, line_to_update)
-
-    while True:
-        data = ui.get_inputs(["To update: ", "New data: ", "Is data correct: y/n:", "Do you want end update y/n: "],
-                             'Choose data to update: 1-Title, 2-Manufacturer, 3-Price, 4-In stock, 0-End of edditing')
-        if data[2] == 'y':
-            if data[0] == "1":  # title
-                line_to_update[1] = data[1]
-            elif data[0] == "2":  # add
-                line_to_update[2] = data[1]
-            elif data[0] == "3":  # remove
-                line_to_update[3] = data[1]
-            elif data[0] == "4":  # update
-                line_to_update[4] = data[1]
-            elif data[0] == "0":
-                break
-            else:
-                raise KeyError("There is no such data.")
-        elif data[2] == 'n':
             break
-        else:
-            raise KeyError("Wrong letter.")
-    print(line_to_update)
-    table[n] = line_to_update
+    change = True
 
+    while change:
+        data = ui.get_inputs(["To update: "],
+                             'Choose data to update: 1-Title, 2-Manufacturer, 3-Price, 4-In stock, 0-End of edditing')
+        if data[0] in ["1", '2', '3', '4']:
+            line_to_update[int(data[0])] = ui.get_inputs(["New data"],'')[0]
+            table[line_index] = line_to_update
+
+            data_manager.write_table_to_file(file_name, table)
+        elif data[0] == "0":
+            return table
+        else:
+            raise KeyError("There is no such data.")
     return table
 
 
@@ -133,10 +124,13 @@ def update(table, id_):
 # the question: How many different kinds of game are available of each manufacturer?
 # return type: a dictionary with this structure: { [manufacturer] : [count] }
 def get_counts_by_manufacturers(table):
-
-    # your code
-
-    pass
+    manufacturer_games = {}
+    for game in table:
+        if game[2] in list(manufacturer_games.keys()):
+            manufacturer_games[game[2]] += 1
+        else:
+            manufacturer_games[game[2]] = 1
+    return manufacturer_games
 
 
 # the question: What is the average amount of games in stock of a given manufacturer?

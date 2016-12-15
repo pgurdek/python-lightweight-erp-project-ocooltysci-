@@ -30,7 +30,7 @@ def start_module():
 
     # your code
 
-    data = data_manager.get_table_from_file('sales/sales.csv')
+    data = data_manager.get_table_from_file('sales/sales_test.csv')
     sales_options = ["Show Table","Add","Remove","Update","Lowest Price Item ID","Items Sorted Between Date"]
     while True:
         ui.print_menu('Sales Main Menu',sales_options,'Back To Menu')
@@ -39,7 +39,7 @@ def start_module():
         except KeyError as err:
             ui.print_error_message(err)
         if not data[0]:
-            data_manager.write_table_to_file('sales/sales.csv', data[1])
+            data_manager.write_table_to_file('sales/sales_test.csv', data[1])
             return True
 def header_info():
 
@@ -94,9 +94,9 @@ def add(table):
     table.append(temp_list)
     return table
 
-def is_number(s):
+def is_number(value):
     try:
-        float(s)
+        float(value)
         return True
     except ValueError:
         return False
@@ -190,18 +190,17 @@ def choose_sale(data):
         return remove(data,ui.get_inputs(["Please enter ID"],"Delete ID"))
     elif option == "4":
         show_table(data)
-        update(data,ui.get_inputs(["Please enter ID"],"Pick the ID to update"))
-        return True
+        return update(data,ui.get_inputs(["Please enter ID"],"Pick the ID to update"))
+    elif option == "5":
+        get_lowest_price_item_id(data)
+        return data
     elif option == "0":
         return False,data
-
     else:
         raise KeyError("There is no such option.")
 
 
 
-# data = data_manager.get_table_from_file('sales.csv')
-#
 # special functions:
 # ------------------
 
@@ -209,9 +208,18 @@ def choose_sale(data):
 # return type: string (id)
 # if there are more than one with the lowest price, return the first by descending alphabetical order
 def get_lowest_price_item_id(table):
-
-    # your code
-
+    # return None
+    print(table[0][2])
+    min = int(table[0][2])
+    for index, value in enumerate(table):
+        if min >= int(value[2]):
+            min = int(value[2])
+    print(min)
+    list_to_sort = []
+    for index,value in enumerate(table):
+        if int(value[2]) == min:
+            list_to_sort.append(value[0])
+    print(list_to_sort)
     pass
 
 

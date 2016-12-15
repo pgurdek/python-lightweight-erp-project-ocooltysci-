@@ -1,7 +1,6 @@
 import common
 
 def print_table(table, title_list):
-def print_table(table, title_list):
     """
     Prints table with data. Sample output:
         /-----------------------------------\

@@ -47,19 +47,16 @@ def start_module():
                 add(table)
             elif choice == "3":
                 show_table(table)
-                id_input = ui.get_inputs(["type ID of the line, to remove: "], "")
-                id_ = id_input[0]
+                id_ = common.check_id(table)
                 remove(table, id_)
                 show_table(table)
             elif choice == "4":
                 show_table(table)
-                id_input = ui.get_inputs(["type ID of the line, to update: "], "")
-                id_ = id_input[0]
+                id_ = common.check_id(table)
                 update(table, id_)
                 show_table(table)
             elif choice == "5":
                 longest_id = get_longest_name_id(table)
-                print(longest_id)
                 ui.print_result(longest_id, 'longest name ID')
             elif choice == "6":
                 nice_list = get_subscribed_emails(table)
@@ -94,7 +91,7 @@ def add(table):
     """
     title = "Add a new record"
     list_labels = ['Name', 'Email', 'Subscribed']
-    record = [common.generate_random()]
+    record = [generate_random()]
     inputs = ui.get_inputs(list_labels, title)
     allowed = ['y', 'n', '1', '0']
     while True:
@@ -134,7 +131,6 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
-
     show_table(table)
     for n in table:
         if id_ in n:
@@ -156,6 +152,7 @@ def update(table, id_):
 
     title = 'Update'
     list_labels = ['Name', 'Email', 'Subscribed']
+    common.check_id(table)
     for data in range(len(table)):
         if table[data][0] == id_:
             inputs = ui.get_inputs(list_labels, title)
@@ -226,3 +223,30 @@ def show_nicelist(nice_list):
 
         header = ['Name', 'email']
         ui.print_table(to_print_list, header)
+
+
+def generate_random():
+    import random
+    import string
+    # Unique and randomly generated (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter)
+    special_chars = ['!', '@', '#', '$', '%', '&']
+    digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    letters = string.ascii_lowercase
+    table = [[special_chars], [digits], [letters]]
+
+    generated = ''
+    is_unique = False
+    new_id = []
+    for row in table:
+        new_id.append(row[0])
+
+    while not is_unique:
+        is_unique = True
+        for i in range(2):
+            generated += str(special_chars[random.randint(0, len(special_chars)-1)])
+            generated += str(digits[random.randint(0, len(digits)-1)])
+            generated += str(letters[random.randint(0, len(letters)-1)])
+            generated += str(letters[random.randint(0, len(letters)-1)].upper())
+        if generated in new_id:
+            is_unique = False
+    return generated

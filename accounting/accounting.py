@@ -328,11 +328,3 @@ def run_avg_amount(table):
     ui.print_result(avg, 'Average income in typed year')
     return
 
-
-if __name__ == '__main__':
-    a = data_manager.get_table_from_file('items.csv')
-    print(a)
-    # for item in a:
-    #     print(item)
-    zip_table = [list(x) for x in zip(*a)]
-    print(zip_table)

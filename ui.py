@@ -1,5 +1,6 @@
 import common
 
+
 def print_table(table, title_list):
     """
     Prints table with data. Sample output:
@@ -25,7 +26,6 @@ def print_table(table, title_list):
 
     zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
 
-
     len_list = []  # list witch will store width of columns
     for line in zip_table:
         length_line = []
@@ -35,47 +35,43 @@ def print_table(table, title_list):
         len_list.append(max(length_line))  # append length of longest strin in column
 
     i = 0
-    for title in (title_list):  # if header is longed than items, length of header is added to width list
+    for title in title_list:  # if header is longed than items, length of header is added to width list
         if len(title) > len_list[i]:
             len_list[i] = len(title)
-        i+=1
+        i += 1
 
+    sum_char = 0  # sum of character which will be printed
+    for i in len_list:
+        sum_char += i
+
+    pauses = "-" * (sum_char + len(len_list)*2-1)  # create of string with '-' for printing
+
+    print('{}{}{}'.format("/", pauses, "\\ "))  # print /---------\
 
     i = 0
-    print('/', end='')
-    for title in title_list:
-        if i == len(title_list) - 1:
-            print('{:>{}}'.format(title, len_list[i] + 1), end= '\\')
-        else:
-            print('{:>{}}'.format(title, len_list[i] + 1), end= '|')
-
+    print('|', end='')
+    for title in title_list:  #print header in format | Id| Month| Day| Year|
+        print('{:>{}}'.format(title, len_list[i] + 1), end='|')
         i += 1
     print()
 
-
-
-    for i in len_list:
+    for i in len_list:  # print separator line |----------|
         pause = '-'*(i+1)
-        print('{}{}'.format("|",pause),end='')
-
+        print('{}{}'.format("|", pause), end='')
     print("|")
+
 
     for line in table:
         i = 0
         print('|', end='')
-        for item in line:
-            print('{:>{}}'.format(item, len_list[i]+ 1), end= '|')
-            i+=1
+        for item in line:  # print every item from list from table in format: | id|  10|  23| 2016|
+            print('{:>{}}'.format(item, len_list[i] + 1), end= '|')
+            i += 1
         print()
 
 
-    sum_char = 0
-    for i in len_list:
-        sum_char += i
-    pauses = "-"  * (sum_char + len(len_list)*2-1)
+    print('{}{}{}'.format("\\", pauses, "/"))  # print last row \---------/
 
-    print('{}{}{}'.format("\\", pauses,"/"))
-    return
 
 
 def print_result(result, label):
@@ -85,14 +81,21 @@ def print_result(result, label):
     if type(result) == dict:
         print_table(dict_to_table(result), label)
 
+
     elif type(result) == list or type(result) == tuple:
         for item in result:
             print(item)
+
     elif type(result) == str:
         print('\n{}: {}'.format(label, result))
 
     elif type(result) == int:
         print('\n {}: {}'.format(label, result))
+
+
+def print_list_to_choose(result, label):
+    for item in common.sort_list(list(set(result))):
+        print(item)
 
 
 def dict_to_table(dictionary):
@@ -101,8 +104,6 @@ def dict_to_table(dictionary):
     for pair in dictionary.items():
         table_from_dict.append([pair[0], str(pair[1])])
     return table_from_dict
-
-
 
 
 def print_menu(title, list_options, exit_message):
@@ -127,7 +128,7 @@ def print_menu(title, list_options, exit_message):
     """
     print('{}:'.format(title))
     for index, option in enumerate(list_options):
-        print('   ({index}) {option}'.format(index=index+1, option=option))
+        print('   ({index}) {option}'.format(index=index + 1, option=option))
 
     print('   (0) {exit}'.format(exit=exit_message))
 

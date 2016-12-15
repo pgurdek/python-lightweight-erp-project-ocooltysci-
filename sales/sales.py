@@ -31,9 +31,9 @@ def start_module():
     # your code
 
     data = data_manager.get_table_from_file('sales/sales.csv')
-    sales_options = ["Show Table","Add","Remove","Update","Lowest Price Item ID","Items Sorted Between Date"]
+    sales_options = ["Show Table", "Add", "Remove", "Update", "Lowest Price Item ID", "Items Sorted Between Date"]
     while True:
-        ui.print_menu('Sales Main Menu',sales_options,'Back To Menu')
+        ui.print_menu('Sales Main Menu', sales_options, 'Back To Menu')
         try:
             data = choose_sale(data)
         except KeyError as err:
@@ -62,7 +62,6 @@ def show_table(table):
 
     # your code
 
-
     ui.print_table(table, header_info())
 
     pass
@@ -79,14 +78,13 @@ def add(table):
         Table with a new record
     """
 
-
     # your code
     headers = header_info()
     numbers_of_values = len(headers)
     temp_list = []
     for index, header_title in enumerate(headers):
         if index == 0:
-            temp_list.append(common.generate_random())
+            temp_list.append(common.generate_random(table))
 
         else:
             values = value_checker(header_title)
@@ -97,34 +95,33 @@ def add(table):
     return table
 
 
-
-
 def value_checker(title):
     """Checks Values for Specials Titles"""
+
     keep_checking = True
 
     while keep_checking:
         value = ui.get_inputs([title], '')
 
         if title == "Price":
-            if is_number(value[0]):
+            if common.is_number(value[0]):
                 return value
 
         elif title == "Day":
-            if is_number(value[0]):
-                number  = int(value[0])
+            if common.is_number(value[0]):
+                number = int(value[0])
                 if number > 0 and number < 32:
                     return value
 
         elif title == "Month":
-            if is_number(value[0]):
-                number  = int(value[0])
+            if common.is_number(value[0]):
+                number = int(value[0])
                 if number > 0 and number <= 12:
                     return value
 
         elif title == "Year":
-            if is_number(value[0]):
-                number  = int(value[0])
+            if common.is_number(value[0]):
+                number = int(value[0])
                 if number > 1990 and number <= 2100:
                     return value
         else:
@@ -166,12 +163,14 @@ def update(table, id_):
     """
 
     # your code
-    for index,elements in enumerate(table):
+    for index, elements in enumerate(table):
         if elements[0] in id_:
-            table[index] = ui.get_inputs(elements,'Please Speciy Data for this elements: ')
+            table[index] = ui.get_inputs(elements, 'Please Speciy Data for this elements: ')
             break
 
     return table
+
+
 # My Functions
 
 def choose_sale(data):
@@ -183,13 +182,13 @@ def choose_sale(data):
         show_table(data)
         return data
     elif option == "2":
-         return add(data)
+        return add(data)
     elif option == "3":
         show_table(data)
-        return remove(data,ui.get_inputs(["Please enter ID"],"Delete ID"))
+        return remove(data, ui.get_inputs(["Please enter ID"], "Delete ID"))
     elif option == "4":
         show_table(data)
-        return update(data,ui.get_inputs(["Please enter ID"],"Pick the ID to update"))
+        return update(data, ui.get_inputs(["Please enter ID"], "Pick the ID to update"))
     elif option == "5":
         get_lowest_price_item_id(data)
         return data
@@ -199,7 +198,7 @@ def choose_sale(data):
                                ui.get_inputs(["Day To"], ""), ui.get_inputs(["Year to"], ""))
         return data
     elif option == "0":
-        return False,data
+        return False, data
     else:
         raise KeyError("There is no such option.")
 
@@ -218,12 +217,12 @@ def get_lowest_price_item_id(table):
             min = int(value[2])
 
     list_to_sort = []
-    for index,value in enumerate(table):
+    for index, value in enumerate(table):
         if int(value[2]) == min:
             list_to_sort.append(value[0])
 
     sorted_list = common.sort_list(list_to_sort)
-    ui.print_result(sorted_list[-1],'Name of the ID with the lower Price DESC')
+    ui.print_result(sorted_list[-1], 'Name of the ID with the lower Price DESC')
     return sorted_list[-1]
 
 
@@ -236,15 +235,15 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
         data_from = (int(year_from[0]), int(month_from[0]), int(day_from[0]))
         data_to = (int(year_to[0]), int(month_to[0]), int(day_to[0]))
     except:
-        data_from = (year_from,month_from,day_from)
-        data_to = (year_to,month_to,day_to)
+        data_from = (year_from, month_from, day_from)
+        data_to = (year_to, month_to, day_to)
 
     list_temp = []
 
     for index, row in enumerate(table):
-        data_checked = (int(row[5]),int(row[3]),int(row[4]))
-        if common.date_comapre(row, data_from, data_to,data_checked):
-            list_temp.append([row[0],row[1],int(row[2]),int(row[3]),int(row[4]),int(row[5])])
-    ui.print_table(list_temp,'Wniki:')
+        data_checked = (int(row[5]), int(row[3]), int(row[4]))
+        if common.date_comapre(row, data_from, data_to, data_checked):
+            list_temp.append([row[0], row[1], int(row[2]), int(row[3]), int(row[4]), int(row[5])])
+    ui.print_table(list_temp, 'Wniki:')
 
     return list_temp

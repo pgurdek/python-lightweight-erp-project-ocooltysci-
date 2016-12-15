@@ -40,7 +40,8 @@ def list_to_choose(table, kolumn, title):
     Args:table and index -number- of kolumn we want to extract from table, and title
     - what kind of data list will contain. Returns: Simple list of strings """
 
-    specyfic_data = list(zip(*table))[kolumn]
+    specyfic_data = list(list(zip(*table))[kolumn])
+    print(specyfic_data)
     ui.print_result(specyfic_data, title)
     return specyfic_data
 
@@ -49,9 +50,27 @@ def average(list_of_amount):
     """Counts average of number in list"""
     return sum_of(list_of_amount)/len(list_of_amount)
 
+
 def sum_of(list_of_amount):
     """Counts sum of number in list"""
     amount = 0
     for number in list_of_amount:
         amount += number
     return amount
+
+
+def sort_list(data_to_sort):
+    """Sorts list"""
+    change = True
+    counter = 1
+    while change:
+        change = False
+        for n in range(len(data_to_sort)):
+            if n == (len(data_to_sort)-counter):
+                break
+            if data_to_sort[n] > data_to_sort[n+1]:
+                data_to_sort[n], data_to_sort[n+1] = data_to_sort[n+1], data_to_sort[n]
+                change = True
+        counter += 1
+    print(data_to_sort)
+    return data_to_sort

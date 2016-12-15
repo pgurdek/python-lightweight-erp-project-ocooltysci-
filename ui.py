@@ -1,4 +1,4 @@
-
+import common
 
 def print_table(table, title_list):
     """
@@ -55,10 +55,15 @@ def print_result(result, label):
     This function doesn't return anything it only prints to console. """
     if type(result) == dict:
         print_table(dict_to_table(result), label)
-    elif type(result) == list or type(result) == tuple:
-        print(label)
-        for item in set(result):
-            print(item)
+    #elif type(result) == list or type(result) == tuple:
+        #for item in common.sort_list(list(set(result))):
+            #print(item)
+
+
+def print_list_to_choose(result, label):
+    for item in common.sort_list(list(set(result))):
+        print(item)
+
 
 def dict_to_table(dictionary):
     """Changes dictionary to table for printing"""

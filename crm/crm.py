@@ -59,11 +59,12 @@ def start_module():
                 show_table(table)
             elif choice == "5":
                 longest_id = get_longest_name_id(table)
+                print(longest_id)
                 ui.print_result(longest_id, 'longest name ID')
             elif choice == "6":
                 nice_list = get_subscribed_emails(table)
                 show_nicelist(nice_list)
-                ui.print_result('Newsletter Customers list: ', nice_list)  # result, label
+                # ui.print_result('Newsletter Customers list: ', nice_list)  # result, label
             elif choice == "0":
                 break
             else:
@@ -199,9 +200,9 @@ def get_longest_name_id(table):
 
 def bubble(lst):
     for i in range(len(lst)):
-        for name in range(len(lst) - 1, i, -1):
-            if lst[name][1] < lst[name - 1][1]:
-                lst[name], lst[name - 1] = lst[name - 1], lst[name]
+        for j in range(len(lst) - 1, i, -1):
+            if lst[j][1] < lst[j - 1][1]:
+                lst[j], lst[j - 1] = lst[j - 1], lst[j]
     return lst
 
 # the question: Which customers has subscribed to the newsletter?

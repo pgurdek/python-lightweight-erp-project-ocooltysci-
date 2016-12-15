@@ -51,11 +51,12 @@ def show_table(table):
     """
 
     # your code
-    print("")
+    ui.print_gap()
     header = ['Id', 'Name', 'Birth date']
 
     ui.print_table(table, header)
-    print("")
+
+    ui.print_gap()
 
 
 
@@ -72,7 +73,7 @@ def add(table):
 
     # your code
 
-    #inputs = ui.get_inputs(["Name", "Birth date"], "\nPlease add a worker.")
+
 
 
     not_proper_input = True
@@ -83,11 +84,15 @@ def add(table):
         if not any(char.isalpha() for char in inputs[0]): # checks if there
     #is a letter in user input. If at least 1 letter is present, input is ok.
             if inputs[0] == "":
-                print("\nPlease type something in 'Name'.\n")
+                ui.print_gap()
+                ui.print_error_message("Please type something in 'Name'.")
+                ui.print_gap()
                 not_proper_input = True
                 #continue
             else:
-                print("\nWrong name type input.\n")
+                ui.print_gap()
+                ui.print_error_message("Wrong name type input.")
+                ui.print_gap()
                 not_proper_input = True
                 #continue
         else:
@@ -96,23 +101,30 @@ def add(table):
             is_int = int(inputs[1])
         except:
             if inputs[1] == "":
-                print("\nPlease type something in 'Birth date'.")
+                ui.print_gap()
+                ui.print_error_message("Please type something in 'Birth date'.")
                 not_proper_input = True
             else:
-                print("\nWrong birth date type input.\n")
+                ui.print_gap()
+                ui.print_error_message("Wrong birth date type input.")
+                ui.print_gap()
                 not_proper_input = True
             continue
         else:
             not_proper_input = False
 
-    random_id = common.generate_random()
+    table = data_manager.get_table_from_file('hr/persons.csv')
+    list_of_ids = []
+    random_id = common.generate_random(table)
     one_input = random_id, inputs[0], inputs[1]
-    one_input_list = list(one_input) # we must do it
+    one_input_list = list(one_input)  # we must do it
     table = data_manager.get_table_from_file('hr/persons.csv')
     table.append(one_input_list)
     data_manager.write_table_to_file('hr/persons.csv', table)
-    print("\nAdded. \n \n")
-    #print(table)
+    ui.print_gap()
+    ui.print_message("Added.")
+    ui.print_gap()
+    ui.print_gap()
 
     return table
 
@@ -133,14 +145,19 @@ def remove(table, id_):
     table = data_manager.get_table_from_file('hr/persons.csv')
     counter = 0
     for n in table:
-        if id_ in n:
+        if id_[0] in n:
             counter += 1
             table.remove(n)
     data_manager.write_table_to_file("hr/persons.csv", table)
     if counter:
-        print("\nRemoved.\n\n")
+        ui.print_gap()
+        ui.print_message("Removed.")
+        ui.print_gap()
+        ui.print_gap()
     else:
-        print("\nCan't find '{}' ID.\n".format(id_))
+        ui.print_gap()
+        ui.print_error_message("Can't find '{}' ID.".format(id_[0]))
+        ui.print_gap()
     return table
 
 
@@ -172,11 +189,13 @@ def update(table, id_):
                     inputs = ui.get_inputs(list_labels2, title2)
                     if not any(char.isalpha() for char in inputs[0]):
                         if inputs[0] == "":
-                            print("Please type something.\n")
+                            ui.print_error_message("Please type something.")
+                            ui.print_gap()
                             not_proper_input = True
                             continue
                         not_proper_input = True
-                        print("Wrong type input.\n")
+                        ui.print_error_message("Wrong type input.")
+                        ui.print_gap()
                     else:
                         not_proper_input = False
                 table[data][1] = inputs[0]
@@ -198,10 +217,11 @@ def update(table, id_):
                         is_int = int(inputs[0])
                     except:
                         if inputs[0] == "":
-                            print("Please type something")
+                            ui.print_error_message("Please type something")
                             not_proper_input = True
                         else:
-                            print("Wrong type input.\n")
+                            ui.print_error_message("Wrong type input.")
+                            ui.print_gap()
                             not_proper_input = True
                         continue
                     else:
@@ -223,43 +243,61 @@ def update(table, id_):
     list_labels = ['Name', 'Birth date']
     is_id_ok = True
     for data in range(len(table)):
-        if table[data][0] == id_:
-            what_change = input("\nSelect what do you want to change:\n1 - name\n\
-2 - birth date \n3 - change name and birth date\n")
-            if what_change == str(1):
-                is_id_ok = True
-                change_name_checker = 0
-                change_birth_date_checker = 0
-                change_name_and_birth_date_checker = 0
-                change_name_checker = change_name(id_)
-            elif what_change == str(2):
-                is_id_ok = True
-                change_name_checker = 0
-                change_birth_date_checker = 0
-                change_name_and_birth_date_checker = 0
-                change_birth_date_checker = change_birth_date(id_)
-            elif what_change == str(3):
-                is_id_ok = True
-                change_name_checker = 0
-                change_birth_date_checker = 0
-                change_name_and_birth_date_checker = 0
-                change_name_and_birth_date_checker = change_name_and_birth_date(id_)
-            else:
-                print("\nThere is no such option.\n")
+        if table[data][0] == id_[0]:
+            list_labels2 = ["Select what do you want to change:\n1 - name\n\
+2 - birth date \n3 - change name and birth date"]
+            ui.print_gap()
+            title2 = ""
+            while True:
+                inputs = ui.get_inputs(list_labels2, title2)
+                ui.print_gap()
+                ui.print_gap()
+                if inputs[0] == str(1):
+                    is_id_ok = True
+                    change_name_checker = 0
+                    change_birth_date_checker = 0
+                    change_name_and_birth_date_checker = 0
+                    change_name_checker = change_name(id_[0])
+                    break
+                elif inputs[0] == str(2):
+                    is_id_ok = True
+                    change_name_checker = 0
+                    change_birth_date_checker = 0
+                    change_name_and_birth_date_checker = 0
+                    change_birth_date_checker = change_birth_date(id_[0])
+                    break
+                elif inputs[0] == str(3):
+                    is_id_ok = True
+                    change_name_checker = 0
+                    change_birth_date_checker = 0
+                    change_name_and_birth_date_checker = 0
+                    change_name_and_birth_date_checker = change_name_and_birth_date(id_[0])
+                    break
+                else:
+                    ui.print_gap()
+                    ui.print_error_message("There is no such option.")
+                    ui.print_gap()
+                    continue
+
         else:
             is_id_ok = False
 
     if is_id_ok == False:
-        print("\nThere is no such ID.")
+        ui.print_gap()
+        ui.print_error_message("There is no such ID.")
         change_name_checker = 0
         change_birth_date_checker = 0
         change_name_and_birth_date_checker = 0
 
     data_manager.write_table_to_file("hr/persons.csv", table)
     if change_name_checker or change_birth_date_checker or change_name_and_birth_date_checker:
-        print("\nDone\n")
+        ui.print_gap()
+        ui.print_message("Done.")
+        ui.print_gap()
     else:
-        print("\nNo changes have been done.\n")
+        ui.print_gap()
+        ui.print_message("No changes have been done.")
+        ui.print_gap()
 
     return table
 
@@ -296,11 +334,12 @@ def choose_hr():
         add(data_manager.get_table_from_file('hr/persons.csv'))
         return True
     elif option == "3":
-        id_ = input("\nSelect ID to remove: ")
+        id_ = ui.get_inputs(["Type an ID you want to remove: "], "")
         remove(data_manager.get_table_from_file('hr/persons.csv'), id_)
         return True
     elif option == "4":
-        id_ = input("\nSelect ID to update: ")
+        ui.print_gap()
+        id_ = ui.get_inputs(["Select ID to update: "], "")
         update(data, id_)
         return True
     elif option == "0":

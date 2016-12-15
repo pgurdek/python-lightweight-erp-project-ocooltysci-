@@ -159,3 +159,9 @@ def print_error_message(message):
     print('\nError:',message,'\n')
 
     pass
+
+def print_gap():
+    print("")
+
+def print_message(message):
+    print(message)

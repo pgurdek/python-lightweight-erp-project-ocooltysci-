@@ -79,7 +79,6 @@ def sort_list(data_to_sort):
 def check_id(table):
     """
     Checks if typed id is in list with all ids, return typed id if it correct
-
     :param table: table created by datamenager from .csv file
     :return: id as string
     """
@@ -110,4 +109,3 @@ def date_comapre(list, data_from, data_to, data_checked):
         return True
     else:
         return False
-

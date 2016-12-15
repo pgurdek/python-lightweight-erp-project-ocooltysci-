@@ -17,6 +17,7 @@ def print_table(table, title_list):
         This function doesn't return anything it only prints to console.
     """
 
+
     # your goes code
 
     zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
@@ -50,6 +51,7 @@ def print_table(table, title_list):
             print('{:>{}}'.format(item, len_list[i]+ 1), end= '|')
             i+=1
         print("")
+
 
     return
 
@@ -157,3 +159,9 @@ def print_error_message(message):
     print('\nError:',message,'\n')
 
     pass
+
+def print_gap():
+    print("")
+
+def print_message(message):
+    print(message)

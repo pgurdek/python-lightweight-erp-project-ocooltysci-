@@ -1,6 +1,7 @@
 import common
 
 def print_table(table, title_list):
+
     """
     Prints table with data. Sample output:
         /-----------------------------------\
@@ -173,8 +174,6 @@ def print_error_message(message):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-
-
     print('\nError:',message,'\n')
 
 

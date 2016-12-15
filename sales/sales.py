@@ -41,11 +41,13 @@ def start_module():
         if not data[0]:
             data_manager.write_table_to_file('sales/sales.csv', data[1])
             return True
+
+
 def header_info():
 
     header = ['Id', 'Title', 'Price', 'Month', 'Day', 'Year']
-
     return header
+
 
 def show_table(table):
     """

@@ -80,7 +80,6 @@ def sort_list(data_to_sort):
 def check_id(table):
     """
     Checks if typed id is in list with all ids, return typed id if it correct
-
     :param table: table created by datamenager from .csv file
     :return: id as string
     """
@@ -99,7 +98,6 @@ def check_id(table):
 def clear():
     """
     Prints empty line 50 times
-
     :return: nothing, only prints to console
     """
 

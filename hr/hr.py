@@ -1,6 +1,7 @@
 # data structure:
 # id: string
-#     Unique and random generated (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter)
+#     Unique and random generated (at least 2 special char()expect: ';'),
+#     2 number, 2 lower and 2 upper case letter)
 # name: string
 # birth_date: number (year)
 
@@ -27,7 +28,15 @@ def start_module():
 
     # your code
 
-    pass
+    hr_options = ["Show Table","Add","Remove","Update","Get oldest person","Get persons closest to average"]
+    keep_menu = True
+    while keep_menu:
+        ui.print_menu('HR Main Menu',hr_options,'Back To Menu')
+        try:
+            keep_menu = choose_hr()
+        except KeyError as err:
+            ui.print_error_message(err)
+
 
 
 def show_table(table):
@@ -42,11 +51,12 @@ def show_table(table):
     """
 
     # your code
-
+    print("")
     header = ['Id', 'Name', 'Birth date']
 
     ui.print_table(table, header)
-    pass
+    print("")
+
 
 
 def add(table):
@@ -61,6 +71,48 @@ def add(table):
     """
 
     # your code
+
+    #inputs = ui.get_inputs(["Name", "Birth date"], "\nPlease add a worker.")
+
+
+    not_proper_input = True
+    inputs = None
+    is_int = None
+    while not_proper_input: # wrong input handling
+        inputs = ui.get_inputs(["Name", "Birth date"], "\nPlease add a worker.")
+        if not any(char.isalpha() for char in inputs[0]): # checks if there
+    #is a letter in user input. If at least 1 letter is present, input is ok.
+            if inputs[0] == "":
+                print("\nPlease type something in 'Name'.\n")
+                not_proper_input = True
+                #continue
+            else:
+                print("\nWrong name type input.\n")
+                not_proper_input = True
+                #continue
+        else:
+            not_proper_input = False
+        try:
+            is_int = int(inputs[1])
+        except:
+            if inputs[1] == "":
+                print("\nPlease type something in 'Birth date'.")
+                not_proper_input = True
+            else:
+                print("\nWrong birth date type input.\n")
+                not_proper_input = True
+            continue
+        else:
+            not_proper_input = False
+
+    random_id = common.generate_random()
+    one_input = random_id, inputs[0], inputs[1]
+    one_input_list = list(one_input) # we must do it
+    table = data_manager.get_table_from_file('hr/persons.csv')
+    table.append(one_input_list)
+    data_manager.write_table_to_file('hr/persons.csv', table)
+    print("\nAdded. \n \n")
+    #print(table)
 
     return table
 
@@ -78,7 +130,17 @@ def remove(table, id_):
     """
 
     # your code
-
+    table = data_manager.get_table_from_file('hr/persons.csv')
+    counter = 0
+    for n in table:
+        if id_ in n:
+            counter += 1
+            table.remove(n)
+    data_manager.write_table_to_file("hr/persons.csv", table)
+    if counter:
+        print("\nRemoved.\n\n")
+    else:
+        print("\nCan't find '{}' ID.\n".format(id_))
     return table
 
 
@@ -95,6 +157,109 @@ def update(table, id_):
     """
 
     # your code
+
+    def change_name(id_):
+        """Works if user what to change only name of a worker."""
+
+        list_labels2 = ['Name']
+        title2 = ''
+        counter = 0
+        for data in range(len(table)):
+            if table[data][0] == id_:
+                not_proper_input = True
+                inputs = None
+                while not_proper_input:
+                    inputs = ui.get_inputs(list_labels2, title2)
+                    if not any(char.isalpha() for char in inputs[0]):
+                        if inputs[0] == "":
+                            print("Please type something.\n")
+                            not_proper_input = True
+                            continue
+                        not_proper_input = True
+                        print("Wrong type input.\n")
+                    else:
+                        not_proper_input = False
+                table[data][1] = inputs[0]
+                counter += 1
+        return counter
+
+    def change_birth_date(id_):
+        """Works if user what to change only birth date of a worker."""
+        title2 = ''
+        counter = 0
+        list_labels2 = ['Birth date']
+        for data in range(len(table)):
+            if table[data][0] == id_:
+                not_proper_input = True
+                inputs = None
+                while not_proper_input: # Makes users input contains something
+                    inputs = ui.get_inputs(list_labels2, title2)
+                    try:
+                        is_int = int(inputs[0])
+                    except:
+                        if inputs[0] == "":
+                            print("Please type something")
+                            not_proper_input = True
+                        else:
+                            print("Wrong type input.\n")
+                            not_proper_input = True
+                        continue
+                    else:
+                        not_proper_input = False
+                table[data][2] = inputs[0]
+                counter += 1
+        return counter
+
+    def change_name_and_birth_date(id_):
+        """Works if user what to change name and birth date of a worker."""
+        change_name(id_)
+        change_birth_date(id_)
+        counter = 0
+        counter += 1
+        return counter
+
+    table = data_manager.get_table_from_file('hr/persons.csv')
+    title = 'Name, birth date'
+    list_labels = ['Name', 'Birth date']
+    is_id_ok = True
+    for data in range(len(table)):
+        if table[data][0] == id_:
+            what_change = input("\nSelect what do you want to change:\n1 - name\n\
+2 - birth date \n3 - change name and birth date\n")
+            if what_change == str(1):
+                is_id_ok = True
+                change_name_checker = 0
+                change_birth_date_checker = 0
+                change_name_and_birth_date_checker = 0
+                change_name_checker = change_name(id_)
+            elif what_change == str(2):
+                is_id_ok = True
+                change_name_checker = 0
+                change_birth_date_checker = 0
+                change_name_and_birth_date_checker = 0
+                change_birth_date_checker = change_birth_date(id_)
+            elif what_change == str(3):
+                is_id_ok = True
+                change_name_checker = 0
+                change_birth_date_checker = 0
+                change_name_and_birth_date_checker = 0
+                change_name_and_birth_date_checker = change_name_and_birth_date(id_)
+            else:
+                print("\nThere is no such option.\n")
+        else:
+            is_id_ok = False
+
+    if is_id_ok == False:
+        print("\nThere is no such ID.")
+        change_name_checker = 0
+        change_birth_date_checker = 0
+        change_name_and_birth_date_checker = 0
+
+    data_manager.write_table_to_file("hr/persons.csv", table)
+    if change_name_checker or change_birth_date_checker or change_name_and_birth_date_checker:
+        print("\nDone\n")
+    else:
+        print("\nNo changes have been done.\n")
 
     return table
 
@@ -119,6 +284,26 @@ def get_persons_closest_to_average(table):
 
     pass
 
-if __name__ == '__main__':
-    data = data_manager.get_table_from_file('persons.csv')
-    show_table(data)
+
+def choose_hr():
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+    data = data_manager.get_table_from_file('hr/persons.csv')
+    if option == "1":
+        show_table(data)
+        return True
+    elif option == "2":
+        add(data_manager.get_table_from_file('hr/persons.csv'))
+        return True
+    elif option == "3":
+        id_ = input("\nSelect ID to remove: ")
+        remove(data_manager.get_table_from_file('hr/persons.csv'), id_)
+        return True
+    elif option == "4":
+        id_ = input("\nSelect ID to update: ")
+        update(data, id_)
+        return True
+    elif option == "0":
+        return False
+    else:
+        raise KeyError("There is no such option.")

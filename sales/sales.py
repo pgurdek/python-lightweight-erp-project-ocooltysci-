@@ -42,11 +42,12 @@ def start_module():
             data_manager.write_table_to_file('sales/sales.csv', data[1])
             return True
 
+
 def header_info():
-
+    """Headers for all Sales"""
     header = ['Id', 'Title', 'Price', 'Month', 'Day', 'Year']
-
     return header
+
 
 def show_table(table):
     """
@@ -95,15 +96,11 @@ def add(table):
     table.append(temp_list)
     return table
 
-def is_number(value):
-    try:
-        float(value)
-        return True
-    except ValueError:
-        return False
+
 
 
 def value_checker(title):
+    """Checks Values for Specials Titles"""
     keep_checking = True
 
     while keep_checking:
@@ -178,6 +175,7 @@ def update(table, id_):
 # My Functions
 
 def choose_sale(data):
+    """Choose  menu item """
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
 
@@ -213,7 +211,7 @@ def choose_sale(data):
 # return type: string (id)
 # if there are more than one with the lowest price, return the first by descending alphabetical order
 def get_lowest_price_item_id(table):
-
+    """Get Lowest Price for Item"""
     min = int(table[0][2])
     for index, value in enumerate(table):
         if min >= int(value[2]):
@@ -232,7 +230,7 @@ def get_lowest_price_item_id(table):
 # the question: Which items are sold between two given dates ? (from_date < sale_date < to_date)
 # return type: list of lists (the filtered table)
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
-
+    """Get items sold beetween for givens dates"""
 
     try:
         data_from = (int(year_from[0]), int(month_from[0]), int(day_from[0]))
@@ -247,6 +245,6 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
         data_checked = (int(row[5]),int(row[3]),int(row[4]))
         if common.date_comapre(row, data_from, data_to,data_checked):
             list_temp.append([row[0],row[1],int(row[2]),int(row[3]),int(row[4]),int(row[5])])
+    ui.print_table(list_temp,'Wniki:')
 
-    ui.print_result(list_temp,'Wyniki: ')
     return list_temp

@@ -41,9 +41,8 @@ def list_to_choose(table, kolumn, title):
     Args:table and index -number- of kolumn we want to extract from table, and title
     - what kind of data list will contain. Returns: Simple list of strings """
 
-    specyfic_data = list(list(zip(*table))[kolumn])
-    print(specyfic_data)
-    ui.print_result(specyfic_data, title)
+    specyfic_data = list(set(list(zip(*table))[kolumn]))
+    ui.print_result(sort_list(specyfic_data), title)
     return specyfic_data
 
 
@@ -90,22 +89,26 @@ def check_id(table):
 
         if c_id[0] in table_rev[0]:
             return c_id[0]
+        else:
+            ui.print_error_message('Wrong id')
 
+
+def is_number(value):
+    """Check is number is Float"""
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
 
 def date_comapre(list, data_from, data_to, data_checked):
-    # data_from_strip = time.strptime(data_from, "%d%m%Y")
-    # data_to_strip = time.strptime(data_to, "%d%m%Y")
-    # data_checked_strip = time.strptime(data_checked, "%d%m%Y")
-    # print('Data ', data_from, ' znajduje się w ', data_checked, ' koniec', data_from)
+    """Compare Dates"""
 
-    d1 = date(data_from[0], data_from[1], data_from[2])
-    d2 = date(data_checked[0], data_checked[1],data_checked[2])
-    d3 = date(data_to[0], data_to[1],data_to[2])
-    # print(d1)
-    # print(d2)
-    # print(d3)
-    # print(list)
-    if d1 < d2 < d3:
+    data_from = date(data_from[0], data_from[1], data_from[2])
+    data_checked = date(data_checked[0], data_checked[1],data_checked[2])
+    data_to = date(data_to[0], data_to[1],data_to[2])
+
+    if data_from < data_checked < data_to:
         return True
     else:
         return False

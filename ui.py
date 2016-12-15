@@ -19,6 +19,9 @@ def print_table(table, title_list):
 
 
     # your goes code
+    # import common
+    #
+    # common.clear()
 
     zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
 
@@ -27,7 +30,7 @@ def print_table(table, title_list):
     for line in zip_table:
         length_line = []
         for item in line:  # check length of items in column from file
-            length_line.append(len(item))
+            length_line.append(len(str(item)))
 
         len_list.append(max(length_line))  # append length of longest strin in column
 
@@ -39,20 +42,39 @@ def print_table(table, title_list):
 
 
     i = 0
+    print('/', end='')
     for title in title_list:
-        print('{:>{}}'.format(title, len_list[i] + 1), end= '|')
-        i += 1
+        if i == len(title_list) - 1:
+            print('{:>{}}'.format(title, len_list[i] + 1), end= '\\')
+        else:
+            print('{:>{}}'.format(title, len_list[i] + 1), end= '|')
 
+        i += 1
     print()
+
+
+
+    for i in len_list:
+        pause = '-'*(i+1)
+        print('{}{}'.format("|",pause),end='')
+
+    print("|")
 
     for line in table:
         i = 0
+        print('|', end='')
         for item in line:
             print('{:>{}}'.format(item, len_list[i]+ 1), end= '|')
             i+=1
-        print("")
+        print()
 
 
+    sum_char = 0
+    for i in len_list:
+        sum_char += i
+    pauses = "-"  * (sum_char + len(len_list)*2-1)
+
+    print('{}{}{}'.format("\\", pauses,"/"))
     return
 
 
@@ -62,18 +84,15 @@ def print_result(result, label):
     This function doesn't return anything it only prints to console. """
     if type(result) == dict:
         print_table(dict_to_table(result), label)
-    #elif type(result) == list or type(result) == tuple:
-        #for item in common.sort_list(list(set(result))):
-            #print(item)
+
+    elif type(result) == list or type(result) == tuple:
+        for item in result:
+            print(item)
     elif type(result) == str:
         print('\n{}: {}'.format(label, result))
 
     elif type(result) == int:
         print('\n {}: {}'.format(label, result))
-
-def print_list_to_choose(result, label):
-    for item in common.sort_list(list(set(result))):
-        print(item)
 
 
 def dict_to_table(dictionary):
@@ -154,14 +173,23 @@ def print_error_message(message):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-
-
     print('\nError:',message,'\n')
 
-    pass
+
+def clear():
+    """
+    Prints empty line 50 times
+
+    :return: nothing, only prints to console
+    """
+
+    clear = "\n" * 50
+    print(clear)
+
 
 def print_gap():
     print("")
+
 
 def print_message(message):
     print(message)

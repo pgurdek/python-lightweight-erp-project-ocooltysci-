@@ -43,7 +43,6 @@ def generate_random():
             generated += str(letters[random.randint(0, len(letters)-1)].upper())
         if generated in new_id:
             is_unique = False
-    print(generated)
     return generated
 
 

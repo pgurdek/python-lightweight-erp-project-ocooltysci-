@@ -72,14 +72,46 @@ def add(table):
 
     # your code
 
-    inputs = ui.get_inputs(["Name", "Birth date"], "\nPlease add a worker.")
+    #inputs = ui.get_inputs(["Name", "Birth date"], "\nPlease add a worker.")
+
+
+    not_proper_input = True
+    inputs = None
+    is_int = None
+    while not_proper_input: # wrong input handling
+        inputs = ui.get_inputs(["Name", "Birth date"], "\nPlease add a worker.")
+        if not any(char.isalpha() for char in inputs[0]): # checks if there
+    #is a letter in user input. If at least 1 letter is present, input is ok.
+            if inputs[0] == "":
+                print("\nPlease type something in 'Name'.\n")
+                not_proper_input = True
+                #continue
+            else:
+                print("\nWrong name type input.\n")
+                not_proper_input = True
+                #continue
+        else:
+            not_proper_input = False
+        try:
+            is_int = int(inputs[1])
+        except:
+            if inputs[1] == "":
+                print("\nPlease type something in 'Birth date'.")
+                not_proper_input = True
+            else:
+                print("\nWrong birth date type input.\n")
+                not_proper_input = True
+            continue
+        else:
+            not_proper_input = False
+
     random_id = common.generate_random()
     one_input = random_id, inputs[0], inputs[1]
     one_input_list = list(one_input) # we must do it
     table = data_manager.get_table_from_file('hr/persons.csv')
     table.append(one_input_list)
     data_manager.write_table_to_file('hr/persons.csv', table)
-    print("\n Added. \n \n")
+    print("\nAdded. \n \n")
     #print(table)
 
     return table
@@ -99,12 +131,16 @@ def remove(table, id_):
 
     # your code
     table = data_manager.get_table_from_file('hr/persons.csv')
-
+    counter = 0
     for n in table:
         if id_ in n:
+            counter += 1
             table.remove(n)
     data_manager.write_table_to_file("hr/persons.csv", table)
-    print("\nRemoved.\n\n")
+    if counter:
+        print("\nRemoved.\n\n")
+    else:
+        print("\nCan't find '{}' ID.\n".format(id_))
     return table
 
 
@@ -123,6 +159,8 @@ def update(table, id_):
     # your code
 
     def change_name(id_):
+        """Works if user what to change only name of a worker."""
+
         list_labels2 = ['Name']
         title2 = ''
         counter = 0
@@ -146,6 +184,7 @@ def update(table, id_):
         return counter
 
     def change_birth_date(id_):
+        """Works if user what to change only birth date of a worker."""
         title2 = ''
         counter = 0
         list_labels2 = ['Birth date']
@@ -172,6 +211,7 @@ def update(table, id_):
         return counter
 
     def change_name_and_birth_date(id_):
+        """Works if user what to change name and birth date of a worker."""
         change_name(id_)
         change_birth_date(id_)
         counter = 0
@@ -179,10 +219,9 @@ def update(table, id_):
         return counter
 
     table = data_manager.get_table_from_file('hr/persons.csv')
-    title = 'Name, birth date' # was "update"
+    title = 'Name, birth date'
     list_labels = ['Name', 'Birth date']
     is_id_ok = True
-    dupa = 0
     for data in range(len(table)):
         if table[data][0] == id_:
             what_change = input("\nSelect what do you want to change:\n1 - name\n\

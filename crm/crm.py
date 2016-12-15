@@ -61,7 +61,6 @@ def start_module():
             elif choice == "6":
                 nice_list = get_subscribed_emails(table)
                 show_nicelist(nice_list)
-                # ui.print_result('Newsletter Customers list: ', nice_list)  # result, label
             elif choice == "0":
                 break
             else:

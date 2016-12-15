@@ -42,7 +42,6 @@ def list_to_choose(table, kolumn, title):
     - what kind of data list will contain. Returns: Simple list of strings """
 
     specyfic_data = list(set(list(zip(*table))[kolumn]))
-    #sort_list(specyfic_data)
     ui.print_result(sort_list(specyfic_data), title)
     return specyfic_data
 
@@ -79,7 +78,6 @@ def sort_list(data_to_sort):
 def check_id(table):
     """
     Checks if typed id is in list with all ids, return typed id if it correct
-
     :param table: table created by datamenager from .csv file
     :return: id as string
     """

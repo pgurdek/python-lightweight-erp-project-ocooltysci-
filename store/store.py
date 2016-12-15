@@ -183,4 +183,5 @@ def get_average_by_manufacturer(table, manufacturer):
 
     stock_amount = [int(game[4]) for game in table if game[2] == manufacturer]
     stock = common.average(stock_amount)
+    ui.print_result([manufacturer, stock], 'Amount of games by manufacturer')
     return stock

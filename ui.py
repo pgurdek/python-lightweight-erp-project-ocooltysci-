@@ -1,7 +1,6 @@
 import common
 
 def print_table(table, title_list):
-
     """
     Prints table with data. Sample output:
         /-----------------------------------\
@@ -17,6 +16,7 @@ def print_table(table, title_list):
     Returns:
         This function doesn't return anything it only prints to console.
     """
+
 
     # your goes code
     # import common
@@ -75,7 +75,6 @@ def print_table(table, title_list):
     pauses = "-"  * (sum_char + len(len_list)*2-1)
 
     print('{}{}{}'.format("\\", pauses,"/"))
-
     return
 
 
@@ -177,8 +176,6 @@ def print_error_message(message):
     print('\nError:',message,'\n')
 
 
-
-
 def clear():
     """
     Prints empty line 50 times
@@ -188,3 +185,11 @@ def clear():
 
     clear = "\n" * 50
     print(clear)
+
+
+def print_gap():
+    print("")
+
+
+def print_message(message):
+    print(message)

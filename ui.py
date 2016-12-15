@@ -18,6 +18,9 @@ def print_table(table, title_list):
     """
 
     # your goes code
+    # import common
+    #
+    # common.clear()
 
     zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
 
@@ -38,18 +41,39 @@ def print_table(table, title_list):
 
 
     i = 0
+    print('/', end='')
     for title in title_list:
-        print('{:>{}}'.format(title, len_list[i] + 1), end= '|')
-        i += 1
+        if i == len(title_list) - 1:
+            print('{:>{}}'.format(title, len_list[i] + 1), end= '\\')
+        else:
+            print('{:>{}}'.format(title, len_list[i] + 1), end= '|')
 
+        i += 1
     print()
+
+
+
+    for i in len_list:
+        pause = '-'*(i+1)
+        print('{}{}'.format("|",pause),end='')
+
+    print("|")
 
     for line in table:
         i = 0
+        print('|', end='')
         for item in line:
             print('{:>{}}'.format(item, len_list[i]+ 1), end= '|')
             i+=1
-        print("")
+        print()
+
+
+    sum_char = 0
+    for i in len_list:
+        sum_char += i
+    pauses = "-"  * (sum_char + len(len_list)*2-1)
+
+    print('{}{}{}'.format("\\", pauses,"/"))
 
     return
 

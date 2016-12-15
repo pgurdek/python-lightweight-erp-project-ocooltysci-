@@ -1,6 +1,7 @@
 import common
 
 def print_table(table, title_list):
+def print_table(table, title_list):
     """
     Prints table with data. Sample output:
         /-----------------------------------\
@@ -10,31 +11,36 @@ def print_table(table, title_list):
         |--------|----------------|---------|
         |   1    |       fo       |    fps  |
         \-----------------------------------/
-
     Args:
         table: list of lists - table to display
         title_list: list containing table headers
-
     Returns:
         This function doesn't return anything it only prints to console.
     """
+
+    # your goes code
+
     zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
+
+
     len_list = []  # list witch will store width of columns
     for line in zip_table:
         length_line = []
         for item in line:  # check length of items in column from file
             length_line.append(len(item))
+
         len_list.append(max(length_line))  # append length of longest strin in column
 
     i = 0
     for title in (title_list):  # if header is longed than items, length of header is added to width list
         if len(title) > len_list[i]:
             len_list[i] = len(title)
-        i += 1
+        i+=1
+
 
     i = 0
     for title in title_list:
-        print('{:>{}}'.format(title, len_list[i] + 1), end='|')
+        print('{:>{}}'.format(title, len_list[i] + 1), end= '|')
         i += 1
 
     print()
@@ -42,8 +48,8 @@ def print_table(table, title_list):
     for line in table:
         i = 0
         for item in line:
-            print('{:>{}}'.format(item, len_list[i] + 1), end='|')
-            i += 1
+            print('{:>{}}'.format(item, len_list[i]+ 1), end= '|')
+            i+=1
         print("")
 
     return
@@ -58,7 +64,11 @@ def print_result(result, label):
     #elif type(result) == list or type(result) == tuple:
         #for item in common.sort_list(list(set(result))):
             #print(item)
+    elif type(result) == str:
+        print('\n{}: {}'.format(label, result))
 
+    elif type(result) == int:
+        print('\n {}: {}'.format(label, result))
 
 def print_list_to_choose(result, label):
     for item in common.sort_list(list(set(result))):
@@ -144,6 +154,7 @@ def print_error_message(message):
         This function doesn't return anything it only prints to console.
     """
 
-    # your code
+
+    print('\nError:',message,'\n')
 
     pass

@@ -38,7 +38,7 @@ def start_module():
             add(table)
         elif user_input == "3":  # remove
             show_table(table)
-            choose_id = ui.get_inputs(["ID: "], 'Choose ID to remove')
+            choose_id = ui.get_inputs(["ID: "], 'Choose ID to remove or 0 to exit')
             remove(table, choose_id)
         elif user_input == "4":  # update
             show_table(table)
@@ -53,7 +53,7 @@ def start_module():
         elif user_input == "0":
             stay_in = False
         else:
-            raise KeyError("There is no such option.")
+            ui.print_error_message("There is no such option.")
 
 
 def show_table(table):
@@ -67,13 +67,36 @@ def add(table):
     """ Asks user for input and adds it into the table. Args: table:
     table to add new record to. Returns: Table with a new record"""
 
-    header = ['Title', 'Manufacturer', 'Price', 'In stock']
+    header = ['Title', 'Manufacturer']
     new_line = [common.generate_random(table)] + ui.get_inputs(header, "Add your data: ")
+
+    for data in ['Price', 'In stock']:
+        check = True
+        while check:
+            date_to_check = ui.get_inputs([data], "Add your data: ")
+            check = foolproofnes(date_to_check)
+        new_line += date_to_check
+
     table.append(new_line)
     file_name = 'store/games.csv'
     data_manager.write_table_to_file(file_name, table)
 
     return table
+
+
+def foolproofnes(values_to_check):
+    """ Ckeks if given values are numbers"""
+    try:
+        b = 2/int(values_to_check[-1])
+        if b > 0:
+            return False
+        else:
+            ui.print_error_message("Data must be a number >0: ")
+    except:
+        ui.print_error_message("Data must be a number >0: ")
+        return True
+
+    return True
 
 
 def remove(table, id_):
@@ -82,9 +105,17 @@ def remove(table, id_):
     Table without specified record. """
 
     show_table(table)
+
     for n in table:
         if id_[0] in n:
             table.remove(n)
+            return table
+        elif id_[0] == '0':
+            return table
+    else:
+         ui.print_error_message("No such ID")
+
+
     file_name = 'store/games.csv'
     data_manager.write_table_to_file(file_name, table)
     return table
@@ -108,15 +139,22 @@ def update(table, id_):
     while change:
         data = ui.get_inputs(["To update: "],
                              'Choose data to update: 1-Title, 2-Manufacturer, 3-Price, 4-In stock, 0-End of edditing')
-        if data[0] in ["1", '2', '3', '4']:
+        if data[0] in ["1", '2']:
             line_to_update[int(data[0])] = ui.get_inputs(["New data"], '')[0]
             table[line_index] = line_to_update
-
+            data_manager.write_table_to_file(file_name, table)
+        elif data[0] in ['3', '4']:
+            check = True
+            while check:
+                date_to_check = ui.get_inputs(['Must be number > 0'], "New data: ")[0]
+                check = foolproofnes(date_to_check)
+            line_to_update[int(data[0])] = date_to_check
+            table[line_index] = line_to_update
             data_manager.write_table_to_file(file_name, table)
         elif data[0] == "0":
             return table
         else:
-            raise KeyError("There is no such data.")
+            ui.print_error_message("No such option. ")
     return table
 
 
@@ -145,4 +183,5 @@ def get_average_by_manufacturer(table, manufacturer):
 
     stock_amount = [int(game[4]) for game in table if game[2] == manufacturer]
     stock = common.average(stock_amount)
+    ui.print_result([manufacturer, stock], 'Amount of games by manufacturer')
     return stock

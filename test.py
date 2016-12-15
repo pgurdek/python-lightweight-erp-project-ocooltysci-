@@ -188,6 +188,7 @@ class SalesTester(unittest.TestCase):
         table = data_manager.get_table_from_file(self.data_file)
         expected = get_item_sold_between_dates()
         result = sales.get_items_sold_between(table, 2, 12, 2016, 7, 6, 2016)
+        print(result)
         compare_lists(self, expected, result)
 
 

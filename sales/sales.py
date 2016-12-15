@@ -41,11 +41,13 @@ def start_module():
         if not data[0]:
             data_manager.write_table_to_file('sales/sales.csv', data[1])
             return True
+
+
 def header_info():
-
+    """Headers for all Sales"""
     header = ['Id', 'Title', 'Price', 'Month', 'Day', 'Year']
-
     return header
+
 
 def show_table(table):
     """
@@ -94,15 +96,11 @@ def add(table):
     table.append(temp_list)
     return table
 
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
+
 
 
 def value_checker(title):
+    """Checks Values for Specials Titles"""
     keep_checking = True
 
     while keep_checking:
@@ -177,6 +175,7 @@ def update(table, id_):
 # My Functions
 
 def choose_sale(data):
+    """Choose  menu item """
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
 
@@ -190,18 +189,21 @@ def choose_sale(data):
         return remove(data,ui.get_inputs(["Please enter ID"],"Delete ID"))
     elif option == "4":
         show_table(data)
-        update(data,ui.get_inputs(["Please enter ID"],"Pick the ID to update"))
-        return True
+        return update(data,ui.get_inputs(["Please enter ID"],"Pick the ID to update"))
+    elif option == "5":
+        get_lowest_price_item_id(data)
+        return data
+    elif option == "6":
+        get_items_sold_between(data, ui.get_inputs(["Month From"], ""), ui.get_inputs(["Day From"], ""),
+                               ui.get_inputs(["Year From"], ""), ui.get_inputs(["Month To"], ""),
+                               ui.get_inputs(["Day To"], ""), ui.get_inputs(["Year to"], ""))
+        return data
     elif option == "0":
         return False,data
-
     else:
         raise KeyError("There is no such option.")
 
 
-
-# data = data_manager.get_table_from_file('sales.csv')
-#
 # special functions:
 # ------------------
 
@@ -209,16 +211,40 @@ def choose_sale(data):
 # return type: string (id)
 # if there are more than one with the lowest price, return the first by descending alphabetical order
 def get_lowest_price_item_id(table):
+    """Get Lowest Price for Item"""
+    min = int(table[0][2])
+    for index, value in enumerate(table):
+        if min >= int(value[2]):
+            min = int(value[2])
 
-    # your code
+    list_to_sort = []
+    for index,value in enumerate(table):
+        if int(value[2]) == min:
+            list_to_sort.append(value[0])
 
-    pass
+    sorted_list = common.sort_list(list_to_sort)
+    ui.print_result(sorted_list[-1],'Name of the ID with the lower Price DESC')
+    return sorted_list[-1]
 
 
 # the question: Which items are sold between two given dates ? (from_date < sale_date < to_date)
 # return type: list of lists (the filtered table)
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
+    """Get items sold beetween for givens dates"""
 
-    # your code
+    try:
+        data_from = (int(year_from[0]), int(month_from[0]), int(day_from[0]))
+        data_to = (int(year_to[0]), int(month_to[0]), int(day_to[0]))
+    except:
+        data_from = (year_from,month_from,day_from)
+        data_to = (year_to,month_to,day_to)
 
-    pass
+    list_temp = []
+
+    for index, row in enumerate(table):
+        data_checked = (int(row[5]),int(row[3]),int(row[4]))
+        if common.date_comapre(row, data_from, data_to,data_checked):
+            list_temp.append([row[0],row[1],int(row[2]),int(row[3]),int(row[4]),int(row[5])])
+    ui.print_table(list_temp,'Wniki:')
+
+    return list_temp

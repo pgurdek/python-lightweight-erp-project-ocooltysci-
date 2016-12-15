@@ -41,9 +41,9 @@ def list_to_choose(table, kolumn, title):
     Args:table and index -number- of kolumn we want to extract from table, and title
     - what kind of data list will contain. Returns: Simple list of strings """
 
-    specyfic_data = list(list(zip(*table))[kolumn])
-    print(specyfic_data)
-    ui.print_result(specyfic_data, title)
+    specyfic_data = list(set(list(zip(*table))[kolumn]))
+    #sort_list(specyfic_data)
+    ui.print_result(sort_list(specyfic_data), title)
     return specyfic_data
 
 
@@ -73,7 +73,6 @@ def sort_list(data_to_sort):
                 data_to_sort[n], data_to_sort[n+1] = data_to_sort[n+1], data_to_sort[n]
                 change = True
         counter += 1
-    print(data_to_sort)
     return data_to_sort
 
 
@@ -94,14 +93,3 @@ def check_id(table):
             return c_id[0]
         else:
             ui.print_error_message('Wrong id')
-
-
-def clear():
-    """
-    Prints empty line 50 times
-
-    :return: nothing, only prints to console
-    """
-
-    clear = "\n" * 50
-    print(clear)

@@ -1,7 +1,6 @@
 import common
 
 def print_table(table, title_list):
-def print_table(table, title_list):
     """
     Prints table with data. Sample output:
         /-----------------------------------\
@@ -61,18 +60,15 @@ def print_result(result, label):
     This function doesn't return anything it only prints to console. """
     if type(result) == dict:
         print_table(dict_to_table(result), label)
-    #elif type(result) == list or type(result) == tuple:
-        #for item in common.sort_list(list(set(result))):
-            #print(item)
+
+    elif type(result) == list or type(result) == tuple:
+        for item in result:
+            print(item)
     elif type(result) == str:
         print('\n{}: {}'.format(label, result))
 
     elif type(result) == int:
         print('\n {}: {}'.format(label, result))
-
-def print_list_to_choose(result, label):
-    for item in common.sort_list(list(set(result))):
-        print(item)
 
 
 def dict_to_table(dictionary):
@@ -157,4 +153,15 @@ def print_error_message(message):
 
     print('\nError:',message,'\n')
 
-    pass
+
+
+
+def clear():
+    """
+    Prints empty line 50 times
+
+    :return: nothing, only prints to console
+    """
+
+    clear = "\n" * 50
+    print(clear)

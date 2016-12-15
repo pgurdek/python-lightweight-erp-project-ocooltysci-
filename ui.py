@@ -1,5 +1,6 @@
 import common
 
+
 def print_table(table, title_list):
     """
     Prints table with data. Sample output:
@@ -18,9 +19,11 @@ def print_table(table, title_list):
     """
 
     # your goes code
+    # import common
+    #
+    # common.clear()
 
     zip_table = [list(x) for x in zip(*table)]  # create transposited list with data
-
 
     len_list = []  # list witch will store width of columns
     for line in zip_table:
@@ -31,27 +34,40 @@ def print_table(table, title_list):
         len_list.append(max(length_line))  # append length of longest strin in column
 
     i = 0
-    for title in (title_list):  # if header is longed than items, length of header is added to width list
+    for title in title_list:  # if header is longed than items, length of header is added to width list
         if len(title) > len_list[i]:
             len_list[i] = len(title)
-        i+=1
-
-
-    i = 0
-    for title in title_list:
-        print('{:>{}}'.format(title, len_list[i] + 1), end= '|')
         i += 1
 
+    sum_char = 0  # sum of character which will be printed
+    for i in len_list:
+        sum_char += i
+
+    pauses = "-" * (sum_char + len(len_list) * 2 - 1)  # create of string with '-' for printing
+
+    print('{}{}{}'.format("/", pauses, "\\ "))  # print /---------\
+
+    i = 0
+    print('|', end='')
+    for title in title_list:  # print header in format | Id| Month| Day| Year|
+        print('{:>{}}'.format(title, len_list[i] + 1), end='|')
+        i += 1
     print()
+
+    for i in len_list:  # print separator line |----------|
+        pause = '-' * (i + 1)
+        print('{}{}'.format("|", pause), end='')
+    print("|")
 
     for line in table:
         i = 0
-        for item in line:
-            print('{:>{}}'.format(item, len_list[i]+ 1), end= '|')
-            i+=1
-        print("")
+        print('|', end='')
+        for item in line:  # print every item from list from table in format: | id|  10|  23| 2016|
+            print('{:>{}}'.format(item, len_list[i] + 1), end='|')
+            i += 1
+        print()
 
-    return
+    print('{}{}{}'.format("\\", pauses, "/"))  # print last row \---------/
 
 
 def print_result(result, label):
@@ -60,14 +76,13 @@ def print_result(result, label):
     This function doesn't return anything it only prints to console. """
     if type(result) == dict:
         print_table(dict_to_table(result), label)
-    #elif type(result) == list or type(result) == tuple:
-        #for item in common.sort_list(list(set(result))):
-            #print(item)
+
     elif type(result) == str:
         print('\n{}: {}'.format(label, result))
 
     elif type(result) == int:
         print('\n {}: {}'.format(label, result))
+
 
 def print_list_to_choose(result, label):
     for item in common.sort_list(list(set(result))):
@@ -80,8 +95,6 @@ def dict_to_table(dictionary):
     for pair in dictionary.items():
         table_from_dict.append([pair[0], str(pair[1])])
     return table_from_dict
-
-
 
 
 def print_menu(title, list_options, exit_message):
@@ -106,7 +119,7 @@ def print_menu(title, list_options, exit_message):
     """
     print('{}:'.format(title))
     for index, option in enumerate(list_options):
-        print('   ({index}) {option}'.format(index=index+1, option=option))
+        print('   ({index}) {option}'.format(index=index + 1, option=option))
 
     print('   (0) {exit}'.format(exit=exit_message))
 
@@ -153,7 +166,6 @@ def print_error_message(message):
         This function doesn't return anything it only prints to console.
     """
 
-
-    print('\nError:',message,'\n')
+    print('\nError:', message, '\n')
 
     pass

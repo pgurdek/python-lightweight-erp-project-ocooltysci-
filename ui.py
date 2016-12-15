@@ -1,4 +1,4 @@
-
+import common
 
 def print_table(table, title_list):
     """
@@ -10,14 +10,13 @@ def print_table(table, title_list):
         |--------|----------------|---------|
         |   1    |       fo       |    fps  |
         \-----------------------------------/
-
     Args:
         table: list of lists - table to display
         title_list: list containing table headers
-
     Returns:
         This function doesn't return anything it only prints to console.
     """
+
 
     # your goes code
 
@@ -53,23 +52,38 @@ def print_table(table, title_list):
             i+=1
         print("")
 
+
     return
 
 
 def print_result(result, label):
-    """
-    Displays results of the special functions.
-
-    Args:
-        result: string, list or dictionary - result of the special function
-        label: label of the result
-
-    Returns:
-        This function doesn't return anything it only prints to console.
-    """
-
-    if type(result) == str:
+    """Displays results of the special functions. Args: result: string, list or dictionary
+    - result of the special function label: label of the result. Returns:
+    This function doesn't return anything it only prints to console. """
+    if type(result) == dict:
+        print_table(dict_to_table(result), label)
+    #elif type(result) == list or type(result) == tuple:
+        #for item in common.sort_list(list(set(result))):
+            #print(item)
+    elif type(result) == str:
         print('\n{}: {}'.format(label, result))
+
+    elif type(result) == int:
+        print('\n {}: {}'.format(label, result))
+
+def print_list_to_choose(result, label):
+    for item in common.sort_list(list(set(result))):
+        print(item)
+
+
+def dict_to_table(dictionary):
+    """Changes dictionary to table for printing"""
+    table_from_dict = []
+    for pair in dictionary.items():
+        table_from_dict.append([pair[0], str(pair[1])])
+    return table_from_dict
+
+
 
 
 def print_menu(title, list_options, exit_message):
@@ -92,14 +106,11 @@ def print_menu(title, list_options, exit_message):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-    # your code
     print('{}:'.format(title))
     for index, option in enumerate(list_options):
-        print('   ({index}) {option}'.format(index=index+1,option = option))
+        print('   ({index}) {option}'.format(index=index+1, option=option))
 
-    print('   (0) {exit}'.format(exit = exit_message))
-
-    pass
+    print('   (0) {exit}'.format(exit=exit_message))
 
 
 def get_inputs(list_labels, title):
@@ -121,7 +132,6 @@ def get_inputs(list_labels, title):
         List of data given by the user. Sample return:
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
-    # your code
     print(title)
     inputs = []
     for user_name_input in list_labels:
@@ -145,7 +155,7 @@ def print_error_message(message):
         This function doesn't return anything it only prints to console.
     """
 
-    # your code
-    print('Error:@',message)
+
+    print('\nError:',message,'\n')
 
     pass

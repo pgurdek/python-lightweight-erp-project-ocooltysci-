@@ -69,7 +69,7 @@ def start_module():
             break
         else:
             ui.print_error_message("Wrong input")
-
+        ui.clear_terminal()
 
 def show_table(table):
     """
@@ -189,6 +189,8 @@ def avg_amount(table, year):
 #
 
 def input_record():
+    import datetime
+    import time
     """
     Create list with validated user inputs
     :return: list with inputs strings
@@ -229,8 +231,9 @@ def input_record():
 
     while True:
         #  year must be 4 digit number
+        current_year = datetime.date.today().strftime("%Y")
         year = ui.get_inputs(['YYYY format'], 'Type year')
-        if year[0].isdigit():
+        if year[0].isdigit() and year[0] <= current_year:
             if len(year[0]) == 4:
                 inputs.append(year[0])
                 break

@@ -36,6 +36,7 @@ def start_module():
             keep_menu = choose_hr()
         except KeyError as err:
             ui.print_error_message(err)
+        ui.clear_terminal()
 
 
 

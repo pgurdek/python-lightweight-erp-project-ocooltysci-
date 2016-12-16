@@ -69,7 +69,7 @@ def start_module():
             break
         else:
             ui.print_error_message("Wrong input")
-
+        ui.clear_terminal()
 
 def show_table(table):
     """

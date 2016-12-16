@@ -85,12 +85,14 @@ def check_id(table):
     table_rev = [list(x) for x in zip(*table)]
 
     while True:
-        c_id = ui.get_inputs(['ABCDEFGHI format'], 'Type id')
+        c_id = ui.get_inputs(['ABCDEFGHI format'], 'Type id, or something else to exit')
 
         if c_id[0] in table_rev[0]:
             return c_id[0]
         else:
             ui.print_error_message('Wrong id')
+            break
+
 
 
 def is_number(value):
@@ -112,3 +114,4 @@ def date_comapre(list, data_from, data_to, data_checked):
         return True
     else:
         return False
+

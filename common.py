@@ -4,10 +4,11 @@ import random
 import string
 import ui
 from datetime import date
+import time
 
 
 # generate and return a unique and random string
-# other expectation:
+# other expectation
 # - at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter
 # - it must be unique in the list
 #
@@ -115,3 +116,6 @@ def date_comapre(list, data_from, data_to, data_checked):
     else:
         return False
 
+def current_year():
+    current_date = time.localtime()
+    return current_date[0]

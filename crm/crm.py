@@ -47,8 +47,8 @@ def start_module():
                 add(table)
             elif choice == "3":
                 show_table(table)
-                id_ = common.check_id(table)
-                remove(table, id_)
+                choose_id = ui.get_inputs(["ID: "], '0 to exit')
+                remove(table, choose_id)
                 show_table(table)
             elif choice == "4":
                 show_table(table)
@@ -132,8 +132,13 @@ def remove(table, id_):
     """
     show_table(table)
     for n in table:
-        if id_ in n:
+        if id_[0] in n:
             table.remove(n)
+        elif id_[0] == '0':
+            return table
+        else:
+            ui.print_error_message("No such ID")
+
     show_table(table)
     file_name = 'customers.csv'
     data_manager.write_table_to_file("crm/customers.csv", table)

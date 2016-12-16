@@ -41,6 +41,7 @@ def start_module():
         if not data[0]:
             data_manager.write_table_to_file('sales/sales.csv', data[1])
             return True
+        ui.clear_terminal()
 
 
 def header_info():
@@ -168,7 +169,6 @@ def update(table, id_):
             table[index] = ui.get_inputs(elements, 'Please Speciy Data for this elements: ')
             break
 
-
     return table
 
 
@@ -227,7 +227,6 @@ def get_lowest_price_item_id(table):
     return sorted_list[-1]
 
 
-
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
     """Get items sold beetween for givens dates"""
 
@@ -250,8 +249,6 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
             elif data_from[1] == int(row[3]) and data_to[1] == int(row[3]):
                 if data_from[2] <= int(row[4]) and data_to[2] >= int(row[4]):
                     list_temp.append([row[0], row[1], int(row[2]), int(row[3]), int(row[4]), int(row[5])])
-
-
 
     ui.print_table(list_temp, header_info())
 

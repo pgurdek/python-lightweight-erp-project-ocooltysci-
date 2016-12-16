@@ -95,7 +95,6 @@ def check_id(table):
             break
 
 
-
 def is_number(value):
     """Check is number is Float"""
     try:
@@ -104,17 +103,18 @@ def is_number(value):
     except ValueError:
         return False
 
+
 def date_comapre(list, data_from, data_to, data_checked):
     """Compare Dates"""
     data_from = date(data_from[0], data_from[1], data_from[2])
-    data_checked = date(data_checked[0], data_checked[1],data_checked[2])
-    data_to = date(data_to[0], data_to[1],data_to[2])
-
+    data_checked = date(data_checked[0], data_checked[1], data_checked[2])
+    data_to = date(data_to[0], data_to[1], data_to[2])
 
     if data_from < data_checked < data_to:
         return True
     else:
         return False
+
 
 def current_year():
     current_date = time.localtime()

@@ -20,7 +20,6 @@ def print_table(table, title_list):
         This function doesn't return anything it only prints to console.
     """
 
-
     # your goes code
     # import common
     #
@@ -46,34 +45,31 @@ def print_table(table, title_list):
     for i in len_list:
         sum_char += i
 
-    pauses = "-" * (sum_char + len(len_list)*2-1)  # create of string with '-' for printing
+    pauses = "-" * (sum_char + len(len_list) * 2 - 1)  # create of string with '-' for printing
 
     print('{}{}{}'.format("/", pauses, "\\ "))  # print /---------\
 
     i = 0
     print('|', end='')
-    for title in title_list:  #print header in format | Id| Month| Day| Year|
+    for title in title_list:  # print header in format | Id| Month| Day| Year|
         print('{:>{}}'.format(title, len_list[i] + 1), end='|')
         i += 1
     print()
 
     for i in len_list:  # print separator line |----------|
-        pause = '-'*(i+1)
+        pause = '-' * (i + 1)
         print('{}{}'.format("|", pause), end='')
     print("|")
-
 
     for line in table:
         i = 0
         print('|', end='')
         for item in line:  # print every item from list from table in format: | id|  10|  23| 2016|
-            print('{:>{}}'.format(item, len_list[i] + 1), end= '|')
+            print('{:>{}}'.format(item, len_list[i] + 1), end='|')
             i += 1
         print()
 
-
     print('{}{}{}'.format("\\", pauses, "/"))  # print last row \---------/
-
 
 
 def print_result(result, label):
@@ -177,7 +173,7 @@ def print_error_message(message):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-    print('\nError:',message,'\n')
+    print('\nError:', message, '\n')
 
 
 def clear():
@@ -193,6 +189,7 @@ def clear():
 
 def print_gap():
     print("")
+
 
 def clear_terminal():
     get_inputs(['Press ENTER to continue'], '')

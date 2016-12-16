@@ -75,21 +75,21 @@ def add(table):
 
 
 
-
+    current_year = common.current_year()
     not_proper_input = True
     inputs = None
     is_int = None
-    #while not_proper_input: # wrong input handling
+    #  while not_proper_input: # wrong input handling
     inputs = ui.get_inputs(["Name", "Birth date"], "\nPlease add a worker.")
-    if any(char.isalpha() for char in inputs[0]): # checks if there
-#is a letter in user input. If at least 1 letter is present, input is ok.
+    if any(char.isalpha() for char in inputs[0]):  # checks if there
+    #  is a letter in user input. If at least 1 letter is present, input is ok.
         not_proper_input = False
         if inputs[0] == "":
             ui.print_gap()
             ui.print_error_message("Please type something in 'Name'.")
             ui.print_gap()
             not_proper_input = True
-            #continue
+            #  continue
     else:
         if inputs[0] == "":
             ui.print_gap()
@@ -101,11 +101,14 @@ def add(table):
             ui.print_error_message("Wrong name type input.")
             ui.print_gap()
             not_proper_input = True
-        #continue
-    #else:
-    #    not_proper_input = False
+
     try:
         is_int = int(inputs[1])
+        if int(inputs[1]) > int(current_year):
+            ui.print_gap()
+            ui.print_error_message("Birth date can't be higher than current year.")
+            ui.print_gap()
+            not_proper_input = True
     except:
         if inputs[1] == "":
             ui.print_gap()

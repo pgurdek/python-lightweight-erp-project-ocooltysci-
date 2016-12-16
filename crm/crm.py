@@ -90,7 +90,7 @@ def add(table):
     """
     title = "Add a new record"
     list_labels = ['Name', 'Email', 'Subscribed']
-    record = [generate_random()]
+    record = common.generate_random(table)
     inputs = ui.get_inputs(list_labels, title)
     allowed = ['y', 'n', '1', '0']
     while True:
@@ -115,7 +115,7 @@ def add(table):
         else:
             new_in = ui.get_inputs(['Email'], title)
             inputs[1] = new_in[0]
-    inputs.insert(0, record[0])
+    inputs.insert(0, record)
     table.append(inputs)
     data_manager.write_table_to_file("crm/customers.csv", table)
     return table
@@ -227,38 +227,3 @@ def show_nicelist(nice_list):
 
         header = ['Name', 'email']
         ui.print_table(to_print_list, header)
-
-
-def generate_random():
-    import random
-    # Unique and randomly generated (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter)
-    special_chars = ['!', '@', '#', '$', '%', '&']
-    digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-               'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-               'u', 'v', 'w', 'x', 'y', 'z']
-    table = [[special_chars], [digits], [letters]]
-
-    generated = ''
-    is_unique = False
-    list_of_id = []
-
-    while not is_unique:
-        list_of_char = []
-        new_id = ''
-        is_unique = True
-        for i in range(2):
-            list_of_char.append(str(special_chars[random.randint(0, len(special_chars)-1)]))
-            list_of_char.append(str(digits[random.randint(0, len(digits)-1)]))
-            list_of_char.append(str(letters[random.randint(0, len(letters)-1)]))
-            list_of_char.append(str(letters[random.randint(0, len(letters)-1)].upper()))
-        for i in range(len(list_of_char)):
-            char = random.choice(list_of_char)
-            new_id += char
-            list_of_char.remove(char)
-        if new_id not in list_of_id:
-            generated += new_id
-            is_unique = True
-    for row in table:
-        list_of_id.append(row[0])
-    return generated

@@ -168,6 +168,7 @@ def update(table, id_):
             table[index] = ui.get_inputs(elements, 'Please Speciy Data for this elements: ')
             break
 
+
     return table
 
 
@@ -226,8 +227,7 @@ def get_lowest_price_item_id(table):
     return sorted_list[-1]
 
 
-# the question: Which items are sold between two given dates ? (from_date < sale_date < to_date)
-# return type: list of lists (the filtered table)
+
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
     """Get items sold beetween for givens dates"""
 
@@ -241,9 +241,18 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     list_temp = []
 
     for index, row in enumerate(table):
-        data_checked = (int(row[5]), int(row[3]), int(row[4]))
-        if common.date_comapre(row, data_from, data_to, data_checked):
+
+        if data_from[0] < int(row[5]) and (data_to[0]) > int(row[5]):
             list_temp.append([row[0], row[1], int(row[2]), int(row[3]), int(row[4]), int(row[5])])
-    ui.print_table(list_temp, 'Wniki:')
+        elif data_from[0] == int(row[5]) and data_to[0] == int(row[5]):
+            if data_from[1] < int(row[3]) and data_to[1] > int(row[3]):
+                list_temp.append([row[0], row[1], int(row[2]), int(row[3]), int(row[4]), int(row[5])])
+            elif data_from[1] == int(row[3]) and data_to[1] == int(row[3]):
+                if data_from[2] <= int(row[4]) and data_to[2] >= int(row[4]):
+                    list_temp.append([row[0], row[1], int(row[2]), int(row[3]), int(row[4]), int(row[5])])
+
+
+
+    ui.print_table(list_temp, header_info())
 
     return list_temp

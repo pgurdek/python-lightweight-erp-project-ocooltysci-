@@ -1,4 +1,6 @@
 import common
+import os
+import time
 
 
 def print_table(table, title_list):
@@ -83,6 +85,7 @@ def print_result(result, label):
 
 
     elif type(result) == list or type(result) == tuple:
+        print(label)
         for item in result:
             print(item)
 
@@ -190,6 +193,12 @@ def clear():
 
 def print_gap():
     print("")
+
+def clear_terminal():
+    get_inputs(['Press ENTER to continue'], '')
+    os.system('clear')
+
+
 
 
 def print_message(message):

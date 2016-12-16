@@ -51,9 +51,11 @@ def start_module():
             manufacturer = ui.get_inputs(["manufacturer"], 'Choose your')[0]
             get_average_by_manufacturer(table, manufacturer)
         elif user_input == "0":
+            ui.print_message("Back to main menu")
             stay_in = False
         else:
             ui.print_error_message("There is no such option.")
+        ui.clear_terminal()
 
 
 def show_table(table):
@@ -182,6 +184,10 @@ def get_average_by_manufacturer(table, manufacturer):
     a given manufacturer?? Args: table with all games. Returns: number of games"""
 
     stock_amount = [int(game[4]) for game in table if game[2] == manufacturer]
+    while not stock_amount:
+        ui.print_error_message("There is no such manufacturer.")
+        return
+
     stock = common.average(stock_amount)
-    ui.print_result([manufacturer, stock], 'Amount of games by manufacturer')
+    ui.print_result([stock], 'Amount of games by {}'.format(manufacturer))
     return stock

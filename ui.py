@@ -199,7 +199,5 @@ def clear_terminal():
     os.system('clear')
 
 
-
-
 def print_message(message):
     print(message)

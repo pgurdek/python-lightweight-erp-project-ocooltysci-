@@ -134,7 +134,7 @@ def remove(table, id_):
     for n in table:
         if id_[0] in n:
             table.remove(n)
-        elif id_[0] == '0':
+        elif id_[0] == '0':  # exit 0
             return table
         else:
             ui.print_error_message("No such ID")

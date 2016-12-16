@@ -4,6 +4,7 @@ import random
 import string
 import ui
 from datetime import date
+import time
 
 
 # generate and return a unique and random string
@@ -115,3 +116,6 @@ def date_comapre(list, data_from, data_to, data_checked):
     else:
         return False
 
+def current_year():
+    current_date = time.localtime()
+    return current_date[0]

@@ -310,17 +310,56 @@ def update(table, id_):
 def get_oldest_person(table):
 
     # your code
+    oldest_people_list = []
+    oldest_year = 5000  # How can I omit it by not declaring a variable? after 3000 years it will be out of date.
+    for person in table:
+        if int(person[2]) < oldest_year:
+            oldest_people_list = []
+            oldest_year = int(person[2])
+            oldest_people_list.append(person[1])
+        elif int(person[2]) == oldest_year:
+            oldest_people_list.append(person[1])
+    ui.print_message(oldest_people_list)
 
-    pass
-
+    return oldest_people_list
 
 # the question: Who is the closest to the average age ?
 # return type: list of strings (name or names if there are two more with the same value)
 def get_persons_closest_to_average(table):
 
     # your code
+    total_age = 0
+    amount_of_people = 0
+    closest_to_average_people_list = []
+    try:
+        for person in table:
+            total_age += int(person[2])
+            amount_of_people += 1
+        average_age = total_age / amount_of_people
 
-    pass
+        difference_init = 500
+        for person in table:
+            difference = abs(int(person[2]) - average_age)
+            if difference < difference_init:
+                closest_to_average_people_list = []
+                closest_to_average_people_list.append(person[1])
+                difference_init = difference
+
+            elif difference == difference_init:
+                closest_to_average_people_list.append(person[1])
+
+        ui.print_gap()
+        ui.print_message(closest_to_average_people_list)
+        ui.print_gap()
+
+        return closest_to_average_people_list
+    except:
+        ui.print_gap()
+        ui.print_message("There must be someone in persons list.")
+        ui.print_gap()
+
+
+
 
 
 def choose_hr():
@@ -341,6 +380,12 @@ def choose_hr():
         ui.print_gap()
         id_ = ui.get_inputs(["Select ID to update: "], "")
         update(data, id_)
+        return True
+    elif option == "5":
+        get_oldest_person(data_manager.get_table_from_file('hr/persons.csv'))
+        return True
+    elif option == "6":
+        get_persons_closest_to_average(data_manager.get_table_from_file('hr/persons.csv'))
         return True
     elif option == "0":
         return False

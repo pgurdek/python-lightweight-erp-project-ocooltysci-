@@ -338,6 +338,7 @@ def get_oldest_person(table):
     ui.print_message(oldest_people_list)
     ui.print_gap()
 
+
     return oldest_people_list
 
 # the question: Who is the closest to the average age ?

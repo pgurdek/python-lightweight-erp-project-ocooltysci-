@@ -79,39 +79,46 @@ def add(table):
     not_proper_input = True
     inputs = None
     is_int = None
-    while not_proper_input: # wrong input handling
-        inputs = ui.get_inputs(["Name", "Birth date"], "\nPlease add a worker.")
-        if not any(char.isalpha() for char in inputs[0]): # checks if there
-    #is a letter in user input. If at least 1 letter is present, input is ok.
-            if inputs[0] == "":
-                ui.print_gap()
-                ui.print_error_message("Please type something in 'Name'.")
-                ui.print_gap()
-                not_proper_input = True
-                #continue
-            else:
-                ui.print_gap()
-                ui.print_error_message("Wrong name type input.")
-                ui.print_gap()
-                not_proper_input = True
-                #continue
+    #while not_proper_input: # wrong input handling
+    inputs = ui.get_inputs(["Name", "Birth date"], "\nPlease add a worker.")
+    if any(char.isalpha() for char in inputs[0]): # checks if there
+#is a letter in user input. If at least 1 letter is present, input is ok.
+        not_proper_input = False
+        if inputs[0] == "":
+            ui.print_gap()
+            ui.print_error_message("Please type something in 'Name'.")
+            ui.print_gap()
+            not_proper_input = True
+            #continue
+    else:
+        if inputs[0] == "":
+            ui.print_gap()
+            ui.print_error_message("Please type something in 'Name'.")
+            ui.print_gap()
+            not_proper_input = True
         else:
-            not_proper_input = False
-        try:
-            is_int = int(inputs[1])
-        except:
-            if inputs[1] == "":
-                ui.print_gap()
-                ui.print_error_message("Please type something in 'Birth date'.")
-                not_proper_input = True
-            else:
-                ui.print_gap()
-                ui.print_error_message("Wrong birth date type input.")
-                ui.print_gap()
-                not_proper_input = True
-            continue
+            ui.print_gap()
+            ui.print_error_message("Wrong name type input.")
+            ui.print_gap()
+            not_proper_input = True
+        #continue
+    #else:
+    #    not_proper_input = False
+    try:
+        is_int = int(inputs[1])
+    except:
+        if inputs[1] == "":
+            ui.print_gap()
+            ui.print_error_message("Please type something in 'Birth date'.")
+            not_proper_input = True
         else:
-            not_proper_input = False
+            ui.print_gap()
+            ui.print_error_message("Wrong birth date type input.")
+            ui.print_gap()
+            not_proper_input = True
+        #continue
+    #else:
+    #    not_proper_input = False
 
     table = data_manager.get_table_from_file('hr/persons.csv')
     list_of_ids = []
@@ -119,11 +126,15 @@ def add(table):
     one_input = random_id, inputs[0], inputs[1]
     one_input_list = list(one_input)  # we must do it
     table = data_manager.get_table_from_file('hr/persons.csv')
-    table.append(one_input_list)
+    if not_proper_input == False:
+        table.append(one_input_list)
+        ui.print_gap()
+        ui.print_message("Added.")
+        ui.print_gap()
     data_manager.write_table_to_file('hr/persons.csv', table)
-    ui.print_gap()
-    ui.print_message("Added.")
-    ui.print_gap()
+    #ui.print_gap()
+    #ui.print_message("Added.")
+    #ui.print_gap()
     ui.print_gap()
 
     return table
@@ -277,7 +288,11 @@ def update(table, id_):
                     ui.print_gap()
                     ui.print_error_message("There is no such option.")
                     ui.print_gap()
-                    continue
+                    change_name_checker = 0
+                    change_birth_date_checker = 0
+                    change_name_and_birth_date_checker = 0
+                    is_id_ok = True
+                    break
 
         else:
             is_id_ok = False
@@ -310,17 +325,59 @@ def update(table, id_):
 def get_oldest_person(table):
 
     # your code
+    oldest_people_list = []
+    oldest_year = 5000  # How can I omit it by not declaring a variable? after 3000 years it will be out of date.
+    for person in table:
+        if int(person[2]) < oldest_year:
+            oldest_people_list = []
+            oldest_year = int(person[2])
+            oldest_people_list.append(person[1])
+        elif int(person[2]) == oldest_year:
+            oldest_people_list.append(person[1])
+    ui.print_gap()
+    ui.print_message(oldest_people_list)
+    ui.print_gap()
 
-    pass
 
+    return oldest_people_list
 
 # the question: Who is the closest to the average age ?
 # return type: list of strings (name or names if there are two more with the same value)
 def get_persons_closest_to_average(table):
 
     # your code
+    total_age = 0
+    amount_of_people = 0
+    closest_to_average_people_list = []
+    try:
+        for person in table:
+            total_age += int(person[2])
+            amount_of_people += 1
+        average_age = total_age / amount_of_people
 
-    pass
+        difference_init = 500
+        for person in table:
+            difference = abs(int(person[2]) - average_age)
+            if difference < difference_init:
+                closest_to_average_people_list = []
+                closest_to_average_people_list.append(person[1])
+                difference_init = difference
+
+            elif difference == difference_init:
+                closest_to_average_people_list.append(person[1])
+
+        ui.print_gap()
+        ui.print_message(closest_to_average_people_list)
+        ui.print_gap()
+
+        return closest_to_average_people_list
+    except:
+        ui.print_gap()
+        ui.print_message("There must be someone in persons list.")
+        ui.print_gap()
+
+
+
 
 
 def choose_hr():
@@ -341,6 +398,12 @@ def choose_hr():
         ui.print_gap()
         id_ = ui.get_inputs(["Select ID to update: "], "")
         update(data, id_)
+        return True
+    elif option == "5":
+        get_oldest_person(data_manager.get_table_from_file('hr/persons.csv'))
+        return True
+    elif option == "6":
+        get_persons_closest_to_average(data_manager.get_table_from_file('hr/persons.csv'))
         return True
     elif option == "0":
         return False
